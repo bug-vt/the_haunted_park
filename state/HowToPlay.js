@@ -15,15 +15,23 @@
 
 function HowToPlay() {
     var backButton = Object.create(ButtonObj);
-    var title = "HOW TO PLAY";
-    var instruction =
-        "Greeting soldier! Here is your mission.\n\n" +
-        "1. Use arrow keys to move and rotate your tank.\n" +
-        "2. Avoid missiles!\n" +
-        "3. Fire missile using space bar and destroy all enemy tanks.\n"; 
+    var candle = Object.create(AnimationObj);
+    var candleLight = Object.create(AnimationObj);
 
-    backButton.init(170, CANVAS_HEIGHT * 3/4, 200, 50, BUTTON);
-    backButton.text("Back to main menu");
+    var ghost = Object.create(AnimationObj);
+    var instruction =
+        "1. Use arrow keys to move and rotate your point of view.\n\n" +
+        "2. Avoid ghosts!\n\n" +
+        "3. Find the exit and the key to unlock it.\n\n" +  
+        "4. If ghost haven't seen you yet, throw a rock to distract the ghosts.\n"; 
+
+    backButton.init(170, 320, 200, 50, BUTTON);
+    backButton.text("< Back to main menu");
+
+    candle.init(260, 120);
+    candleLight.init(0, 0);
+
+    ghost.init(50, 150);
 
     /**
      * handle mouse click from user.
@@ -39,38 +47,46 @@ function HowToPlay() {
         backButton.clickEvent(gameStates.start());
     }
 
+    function showCandle() {
+        if (frameCount % 8 == 0) {
+            candle.frame = (candle.frame + 1) % 2;
+            candleLight.frame = (candleLight.frame + 1) % 4;
+        }
+        image(candleImgs[candle.frame], candle.x, candle.y);
+        image(candleLightImgs[candleLight.frame], candleLight.x, candleLight.y);
+    }
+
+    function showGameObjs() {
+        if (frameCount % 6 == 0) {
+            ghost.frame = (ghost.frame + 1) % 2;
+        }
+        image(ghostImgs[ghost.frame], ghost.x, ghost.y, 50, 45);
+        image(instructionImgs[0], 50, 95);
+        image(instructionImgs[1], 50, 210);
+        image(instructionImgs[2], 60, 270);
+    }
+
     /**
      * Render How to play screen.
      */
     function render() {
-        // background 
-        fill(60);
-        rect(0, 0, CANVAS_WIDTH, 50);
-        let gradation = 0;
-        for (let y = 50; y < CANVAS_HEIGHT; y += 4) {
-            fill(100 + gradation, 100 + gradation,  100 + gradation);
-            gradation++;
-            rect(0, y, CANVAS_WIDTH, 5); 
-        }
+        image(instructionImg, 0, 0);
 
-        // Title
-        push();
-        fill(200); 
-        textSize(BIG_TEXT_SIZE);
-        textStyle(BOLD);
-        text(title, CANVAS_WIDTH / 2, 40);
-        pop();
+        showGameObjs();
 
         push();
         // instructions
-        fill(255);
+        fill(0);
         textAlign(LEFT, TOP);
         textSize(DEFAULT_TEXT_SIZE);
         textWrap(WORD);
-        text(instruction, 50, 70, 300);
+        text(instruction, 120, 90, 390);
         pop();
 
         backButton.render();
+
+        showCandle();
+
     }
 
     var publicAPI = {

@@ -28,12 +28,32 @@ var gameStates = {
 var canvas;
 var currentState;
 var score;
-var images = [];
+var titleImgs = [];
+var ghostImgs = [];
+var lightningImg;
+var instructionImg;
+var candleImgs = [];
+var candleLightImgs = [];
+var instructionImgs = [];
 
 
 function preload() {
-    images[0] = loadImage("./images/title_background.png");
-    images[1] = loadImage("./images/title.png");
+    titleImgs[0] = loadImage("images/title_background.png");
+    titleImgs[1] = loadImage("images/title.png");
+    titleImgs[2] = loadImage("images/title_dark.png");
+    lightningImg = loadImage("images/lightning.png");
+    ghostImgs[0] = loadImage("images/ghost_front1.png");
+    ghostImgs[1] = loadImage("images/ghost_front2.png");
+    instructionImg = loadImage("images/instruction.png");
+    candleImgs[0] = loadImage("images/candle1.png");
+    candleImgs[1] = loadImage("images/candle2.png");
+    candleLightImgs[0] = loadImage("images/candle_light.png");
+    candleLightImgs[1] = loadImage("images/candle_light2.png");
+    candleLightImgs[2] = loadImage("images/candle_light3.png");
+    candleLightImgs[3] = loadImage("images/candle_light4.png");
+    instructionImgs[0] = loadImage("images/arrow_keys.png");
+    instructionImgs[1] = loadImage("images/key.png");
+    instructionImgs[2] = loadImage("images/rock.png");
 }
 
 

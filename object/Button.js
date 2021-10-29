@@ -60,8 +60,8 @@ ButtonObj.clickEvent = function(nextState) {
  */
 ButtonObj.render = function() {
     push();
-    fill(255,255,255,80);
-    rect(this.x, this.y, this.width, this.height);
+    //fill(255,255,255,80);
+    //rect(this.x, this.y, this.width, this.height);
     fill(0);
     textSize(DEFAULT_TEXT_SIZE);
     text(this.text, this.x + this.width / 2, this.y + this.height / 2);
