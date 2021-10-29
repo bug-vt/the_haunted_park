@@ -1,7 +1,7 @@
 /**
  * SimpleObj.js
  * Author: Bug Lee
- * Last modified: 10/11/21
+ * Last modified: 10/29/21
  *
  * This module contains data structure for SimpleObj,
  * which provide a baseline for many objects used in game.
@@ -15,7 +15,6 @@
  * 2. box collision
  * 3. render
  * 4. set image
- * 5. spawn dust (spawn effect)
  */
 var SimpleObj = {
     /**
@@ -35,19 +34,9 @@ var SimpleObj = {
     },
     
     /**
-     * Set the image data that would represent the object.
-     * Offset appropriately so that img will be centered.
-     * @param img : array containing pixel positions.
+     * To be determined
      */
-    setImg: function(liner, filler) {
-        /*
-        Matrix.cartesian2homogeneous(liner);
-        Matrix.cartesian2homogeneous(filler);
-        this.imgLine = ShiftMatrix(-10, -10).mult(liner);
-        this.imgFill = ShiftMatrix(-10, -10).mult(filler);
-        Matrix.homogeneous2cartesian(this.imgLine);
-        Matrix.homogeneous2cartesian(this.imgFill);
-        */
+    setImg: function() {
     },
 
     /**
@@ -84,18 +73,6 @@ var SimpleObj = {
             }
         }
     },
-
-    /**
-     * Generate explosion effect.
-     *
-     * @param dusts : array containing dust objects.
-     * @param type : effect type.
-     */
-    spawnDust: function(dusts, type) {
-        let dust = Object.create(Dust);
-        dust.init(this.x + this.width / 2, this.y + this.height / 2, type);
-        dusts.push(dust);
-    }
 };
 
 

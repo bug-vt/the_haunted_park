@@ -1,11 +1,11 @@
 /**
  * HowToPlay.js
  * Author: Bug Lee
- * Last modified: 10/11/21
+ * Last modified: 10/29/21
  *
  * This module contains HowToPlay data structure.
  * How to play screen include:
- * 1. How to play title
+ * 1. Instruction title
  * 2. Game instructions.
  * 3. Back to main menu button.
  */
@@ -17,8 +17,8 @@ function HowToPlay() {
     var backButton = Object.create(ButtonObj);
     var candle = Object.create(AnimationObj);
     var candleLight = Object.create(AnimationObj);
-
     var ghost = Object.create(AnimationObj);
+
     var instruction =
         "1. Use arrow keys to move and rotate your point of view.\n\n" +
         "2. Avoid ghosts!\n\n" +
@@ -47,7 +47,10 @@ function HowToPlay() {
         backButton.clickEvent(gameStates.start());
     }
 
-    function showCandle() {
+    /**
+     * Apply candle lighting set up to the instruction screen.
+     */
+    function applyCandleLighting() {
         if (frameCount % 8 == 0) {
             candle.frame = (candle.frame + 1) % 2;
             candleLight.frame = (candleLight.frame + 1) % 4;
@@ -55,7 +58,10 @@ function HowToPlay() {
         image(candleImgs[candle.frame], candle.x, candle.y);
         image(candleLightImgs[candleLight.frame], candleLight.x, candleLight.y);
     }
-
+    
+    /**
+     * Display game objects near the corresponding instruction.
+     */
     function showGameObjs() {
         if (frameCount % 6 == 0) {
             ghost.frame = (ghost.frame + 1) % 2;
@@ -70,7 +76,7 @@ function HowToPlay() {
      * Render How to play screen.
      */
     function render() {
-        image(instructionImg, 0, 0);
+        image(instructionImg, 0, 0); // background image
 
         showGameObjs();
 
@@ -85,7 +91,7 @@ function HowToPlay() {
 
         backButton.render();
 
-        showCandle();
+        applyCandleLighting();
 
     }
 

@@ -1,7 +1,7 @@
 /**
- * Actor.js
+ * Button.js
  * Author: Bug Lee
- * Last modified: 10/11/21
+ * Last modified: 10/29/21
  *
  * This module contains data structures for MouseObj and ButtonObj.
  */

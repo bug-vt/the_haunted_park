@@ -48,6 +48,9 @@ function StartScreen() {
         lightning.update();
     }
 
+    /**
+     * Show image of the ghost when lightning struck.
+     */
     function showGhosts() {
         if (frameCount % 6 == 0) {
             ghost.frame = (ghost.frame + 1) % 2;
@@ -58,6 +61,9 @@ function StartScreen() {
         pop();
     }
 
+    /**
+     * Reveal title and title image of the game when lightning struck.
+     */
     function revealTitle() {
         if (performance.now() - lightning.timeCheck > ONE_SEC * 3) {
             lightning.timeCheck = performance.now();
@@ -76,15 +82,16 @@ function StartScreen() {
      * Render start screen.
      */
     function render() {
-        image(titleImgs[0], 0, 0);
+
+        image(titleImgs[0], 0, 0); // darken title and title image
         lightning.render();
-        image(titleImgs[2], 0, 0);
+        image(titleImgs[2], 0, 0); // background tree image
         revealTitle();
         showGhosts();
+
         // buttons
         startButton.render();
         howToPlayButton.render();
-
 
         // credit
         push();

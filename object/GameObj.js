@@ -1,14 +1,15 @@
 /**
  * GameObj.js
  * Author: Bug Lee
- * Last modified: 10/11/21
+ * Last modified: 10/29/21
  *
- * This module contains data structure for Bullet and Dust.
- * Both Bullet and Dust can be spawn from the Actor.
+ * This module contains data structure for Lightning and AniamtionObj.
  */
 
 
-
+/**
+ * Lightning object mimic the lightning effect.
+ */
 var Lightning = {
     init: function(x, y) {
         this.x = x;
@@ -19,7 +20,10 @@ var Lightning = {
         this.flashTime = performance.now();
         this.flashAlpha = 255;
     },
-
+    
+    /**
+     * update the oppacity of lightning.
+     */
     update: function() {
         if (performance.now() - this.flashTime > HALF_SEC)
         {
@@ -31,7 +35,10 @@ var Lightning = {
             this.flashAlpha -= 6;
         }
     },
-
+    
+    /**
+     * render lightning.
+     */
     render: function() {
         push(); 
         fill(255, 255, 255, this.flashAlpha);
@@ -42,6 +49,10 @@ var Lightning = {
     }
 };
 
+/**
+ * Animation object cotains its position and
+ * its current frame in animation.
+ */
 var AnimationObj = {
     init: function(x, y) {
         this.x = x;
