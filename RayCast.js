@@ -4,6 +4,14 @@
 "use strict";
 
 
+var Sprite = {
+    init: function(x, y, img) {
+        this.x = x;
+        this.y = y;
+        this.img = img;
+    }
+};
+
 function RayCast(player) {
     var posX = player.x / TILE_SIZE;
     var posY = player.y / TILE_SIZE;
@@ -11,8 +19,13 @@ function RayCast(player) {
     var dirY = -player.direction[1];
     var planeX = player.plane[0];
     var planeY = player.plane[1];
-    var h = CANVAS_HEIGHT;
-
+    var depth = []; 
+    var spriteOrder = [];
+    var spriteDistance = [];
+    var sprite = [Object.create(Sprite)];
+    sprite[0].init(5,5,ghostImgs[0]);
+    
+    // wall casting
     for (let x = 0; x < CANVAS_WIDTH; x++)
     {
         let cameraX = 2 * x / CANVAS_WIDTH - 1;
@@ -28,7 +41,7 @@ function RayCast(player) {
         let deltaDistX = abs(1 / rayDirX);
         let deltaDistY = abs(1 / rayDirY);
 
-        let perpWallDist;
+        var perpWallDist;
 
         let stepX;
         let stepY;
@@ -78,15 +91,15 @@ function RayCast(player) {
             perpWallDist = sideDistY - deltaDistY;
         }
 
-        let lineHeight = floor(h / perpWallDist);
+        let lineHeight = floor(CANVAS_HEIGHT / perpWallDist);
 
-        let drawStart = -lineHeight / 2 + h / 2;
+        let drawStart = -lineHeight / 2 + CANVAS_HEIGHT / 2;
         if (drawStart < 0) {
             drawStart = 0;
         }
-        let drawEnd = lineHeight / 2 + h / 2;
-        if (drawEnd >= h) {
-            drawEnd = h - 1;
+        let drawEnd = lineHeight / 2 + CANVAS_HEIGHT / 2;
+        if (drawEnd >= CANVAS_HEIGHT) {
+            drawEnd = CANVAS_HEIGHT - 1;
         }
 
         switch(mapLayout[mapY][mapX])
@@ -101,6 +114,60 @@ function RayCast(player) {
         }
 
         line(x, drawStart, x, drawEnd);
+        depth[x] = perpWallDist;
+    }
+
+    // sprite casting
+    for (let i = 0; i < sprite.length; i++) {
+        spriteOrder[i] = i;
+        spriteDistance[i] = pow(posX - sprite[i].x, 2) + pow(posY - sprite[i].y, 2);
+    }
+    //sortSprites(spriteOrder, spriteDistance, sprite.length);
+
+    for (let i = 0; i < sprite.length; i++) {
+        let spriteX = sprite[spriteOrder[i]].x - posX;
+        let spriteY = sprite[spriteOrder[i]].y - posY;
+
+        let invDet = 1.0 / (planeX * dirY - dirX * planeY);
+        let transform = Matrix.mult([[dirY, -dirX],[-planeY,planeX]], [spriteX, spriteY]);
+        transform[0] *= invDet;
+        transform[1] *= invDet;
+
+        let spriteScreenX = floor((CANVAS_WIDTH / 2) * (1 + transform[0] / transform[1]));
+
+        let spriteHeight = abs(floor(CANVAS_HEIGHT / transform[1]));
+
+        let drawStartY = floor(-spriteHeight / 2 + CANVAS_HEIGHT / 2);
+        if (drawStartY < 0) {
+            drawStartY = 0;
+        }
+        let drawEndY = floor(spriteHeight / 2 + CANVAS_HEIGHT / 2);
+        if (drawEndY >= CANVAS_HEIGHT) {
+            drawEndY = CANVAS_HEIGHT - 1;
+        }
+
+        let spriteWidth = abs( floor(CANVAS_HEIGHT / transform[1]));
+        let drawStartX = floor(-spriteWidth / 2 + spriteScreenX);
+        if (drawStartX < 0) {
+            drawStartX = 0;
+        }
+        let drawEndX = floor(spriteWidth / 2 + spriteScreenX);
+        if (drawEndX >= CANVAS_WIDTH) {
+            drawEndX = CANVAS_WIDTH - 1;
+        }
+        
+        for (let stripe = drawStartX; stripe < drawEndX; stripe++) {
+            //let texX = floor((stripe - (-spriteWidth / 2 + spriteScreenX)) * 94 / spriteWidth);
+            if (transform[1] > 0 && stripe > 0 && stripe < CANVAS_WIDTH &&
+                transform[1] < depth[stripe]) {
+
+                //let d = floor(y - CANVAS_HEIGHT / 2 + spriteHeight / 2);
+                //let texY = floor(d * 82 / spriteHeight);
+                
+                stroke(255, 0, 0);
+                line(stripe, drawStartY, stripe, drawEndY);
+            }
+        }
     }
 }
 

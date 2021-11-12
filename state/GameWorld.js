@@ -150,6 +150,9 @@ function GameWorld() {
         //background(222);
         tileMap.render(camera);
 
+        fill(120, 0, 0);
+        rect(100, 100, 20, 20);
+
         for (let entity of gameEntities) {
             entity.render(camera);
                 
