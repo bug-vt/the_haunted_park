@@ -18,8 +18,9 @@ function Player() {
     
     var player = Object.create(Actor);
     player.setSpeed(PLAYER_SPD);
-    player.setDirection([0, -1]);
+    player.setDirection([-1, 0]);
     //player.state = Standing(player);
+    player.plane = [0, 0.66];
     
 
     return player;

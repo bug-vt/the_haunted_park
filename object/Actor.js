@@ -42,6 +42,9 @@ Actor.setDirection = function(direction) {
  * @param degree : degree to rotate (not radian)
  */
 Actor.rotate = function(degree) {
+    if (this.type == PLAYER) {
+        this.plane = RotationMatrix(degree).mult(this.plane);
+    }
     this.direction = RotationMatrix(degree).mult(this.direction);
     this.angle += degree;
 };
@@ -78,12 +81,12 @@ Actor.update = function() {
         this.rotate(TURN_RATE);
     }
     if (this.inputs[FORWARD]) {
-        this.x += this.direction[0] * this.speed;
-        this.y += this.direction[1] * this.speed;
-    }
-    if (this.inputs[BACKWARD]) {
         this.x -= this.direction[0] * this.speed;
         this.y -= this.direction[1] * this.speed;
+    }
+    if (this.inputs[BACKWARD]) {
+        this.x += this.direction[0] * this.speed;
+        this.y += this.direction[1] * this.speed;
     }
 
     this.inputs = [false, false, false, false];

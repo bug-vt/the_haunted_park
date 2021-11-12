@@ -147,6 +147,7 @@ function GameWorld() {
      * Get most up to date image of the game world in current frame.
      */
     function render() {
+        //background(222);
         tileMap.render(camera);
 
         for (let entity of gameEntities) {
@@ -167,6 +168,8 @@ function GameWorld() {
         for (let dust of dusts) {
             dust.render(camera);
         }
+
+        RayCast(player);
         //showScore();    
     }
 

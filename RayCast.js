@@ -5,12 +5,13 @@
 
 
 function RayCast(player) {
-    var posX = player.x;
-    var posY = player.y;
-    var dirX = player.dir[0];
-    var dirY = player.dir[1];
+    var posX = player.x / TILE_SIZE;
+    var posY = player.y / TILE_SIZE;
+    var dirX = -player.direction[0];
+    var dirY = -player.direction[1];
     var planeX = player.plane[0];
     var planeY = player.plane[1];
+    var h = CANVAS_HEIGHT;
 
     for (let x = 0; x < CANVAS_WIDTH; x++)
     {
@@ -26,6 +27,8 @@ function RayCast(player) {
 
         let deltaDistX = abs(1 / rayDirX);
         let deltaDistY = abs(1 / rayDirY);
+
+        let perpWallDist;
 
         let stepX;
         let stepY;
@@ -52,6 +55,7 @@ function RayCast(player) {
         
         while (hit == 0)
         {
+            //print(mapX, mapY);
             if (sideDistX < sideDistY) {
                 sideDistX += deltaDistX;
                 mapX += stepX;
@@ -62,7 +66,7 @@ function RayCast(player) {
                 mapY += stepY;
                 side = 1;
             }
-            if (worldMap[mapX][mapY] > 0) {
+            if (mapLayout[mapY][mapX] == 'w') {
                 hit = 1;
             }
         }
@@ -85,15 +89,15 @@ function RayCast(player) {
             drawEnd = h - 1;
         }
 
-        switch(worldMap[mapX][mapY])
+        switch(mapLayout[mapY][mapX])
         {
-            case 1: 
-                fill(0, 0, 255);
+            case 'w': 
+                stroke(0, 0, 255);
                 break;
         }
 
         if (side == 1) {
-            fill(0, 0, 120);
+            stroke(0, 0, 120);
         }
 
         line(x, drawStart, x, drawEnd);
