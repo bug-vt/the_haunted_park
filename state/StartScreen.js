@@ -43,8 +43,8 @@ function StartScreen() {
      * according to the button that user clicked.
      */
     function update() {
-        //startButton.clickEvent(gameStates.gameWorld());
-        howToPlayButton.clickEvent(gameStates.howToPlay());
+        startButton.clickEvent(gameStates.gameWorld);
+        howToPlayButton.clickEvent(gameStates.howToPlay);
         lightning.update();
     }
 

@@ -28,12 +28,13 @@
 var gameStates = {
     start: StartScreen,
     howToPlay: HowToPlay,
-//    gameWorld: GameWorld,
-//    result: Result
+    gameWorld: GameWorld,
+    result: Result
 };
 var canvas;
 var currentState;
 var score;
+var mapLayout;
 var titleImgs = [];
 var ghostImgs = [];
 var lightningImg;

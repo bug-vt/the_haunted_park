@@ -13,7 +13,6 @@
 
 function GameWorld() {
     score = 0;
-    starCount = 0;
     var camera = Object.create(Camera);
     var tileMap = TileMap();
     var gameEntities = [];
@@ -34,8 +33,7 @@ function GameWorld() {
         camera.init(0, 0, MAP_WIDTH, MAP_HEIGHT);
         player.init(360, 200, TILE_SIZE, TILE_SIZE, PLAYER);
         mapLayout = tileMap.getMapLayout();
-        fillMapWithPellets();
-        spawnEntities(NUM_OF_NPC, NPC);
+        //spawnEntities(NUM_OF_NPC, NPC);
     }
    
     /**
@@ -69,39 +67,14 @@ function GameWorld() {
     }
 
     /**
-     * Fill the non-wall tiles with pellets.
-     */
-    function fillMapWithPellets() {
-        let taken = tileMap.getMapLayout();
-        let entity;
-        for (let i = 0; i < taken.length * taken[0].length; i++) {
-            let col = i % MAP_COLUMN;
-            let row = floor(i / MAP_COLUMN);
-            if (taken[row][col] != WALL) {
-                let posX = col * TILE_SIZE;
-                let posY = row * TILE_SIZE;
-                entity = Object.create(Prize);
-                entity.init(posX, posY, TILE_SIZE, TILE_SIZE, PRIZE);
-                gameEntities.push(entity);
-                starCount++;
-            }
-        }
-    }
-
-    /**
      * Create commands for the actors inside the world.
      * User inputs will be directed to the player and
      * AI inputs will be directed to the npc.
      */
     function handleInput() {
-        if (frameCount % 4 == 0) {
-            let UserCommands = Command.handleInput();
-            if (UserCommands.length > 0) {
-                player.inputs = [false, false, false, false];
-            }
-            for (let command of UserCommands) {
-                command.execute(player);
-            }
+        let UserCommands = Command.handleInput();
+        for (let command of UserCommands) {
+            command.execute(player);
         }
         
         for (let entity of gameEntities) {
@@ -194,7 +167,7 @@ function GameWorld() {
         for (let dust of dusts) {
             dust.render(camera);
         }
-        showScore();    
+        //showScore();    
     }
 
     /**
@@ -216,7 +189,7 @@ function GameWorld() {
      * 2. player made contact with any of the NPCs.
      */
     function checkGameEnd() {
-        if (score === starCount) {
+        if (score === 1) {
             currentState = gameStates.result();
             currentState.init(WIN);
         }

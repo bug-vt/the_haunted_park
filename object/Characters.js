@@ -18,8 +18,8 @@ function Player() {
     
     var player = Object.create(Actor);
     player.setSpeed(PLAYER_SPD);
-    player.setDirection([[0, -1]]);
-    player.state = Standing(player);
+    player.setDirection([0, -1]);
+    //player.state = Standing(player);
     
 
     return player;
@@ -30,9 +30,12 @@ function Npc() {
 
     var npc = Object.create(Actor);
     npc.setSpeed(NPC_SPD);
-    npc.setDirection([[0, -1]]);
-    npc.state = Standing(npc);
-    npc.safeDist = CLOSE;
+    npc.setDirection([0, -1]);
+    npc.state = Wondering();
+    npc.path = [];
+    npc.setID = function(id) {
+        this.id = id;
+    };
  
 
     return npc;

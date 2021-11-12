@@ -47,58 +47,10 @@ var Command = {
      * @param npc : npc object that command will be sent to.
      */
     generateCommand4AI: function(player, npc) {
-        let avoid = false;
         let queue = [];
         let squareDist = Math.pow(player.x - npc.x, 2) + Math.pow(player.y - npc.y, 2);
         let currAngle = atan2(npc.direction[0][1], npc.direction[0][0]);
         let goalAngle = atan2(npc.y - player.y, npc.x - player.x);
-
-        // find angle to evade bullets
-        for (let bullet of player.bullets) {
-            let bulletDist = pow(npc.x - bullet.x, 2) + pow(npc.y - bullet.y, 2);
-            if (bulletDist < ON_SIGHT)
-            {
-                let lookout = 0.5;
-                if (bulletDist <= TOO_CLOSE) {
-                    lookout = 2; 
-                }
-                let bulletAngle = atan2(bullet.vector[1], bullet.vector[0]);
-                let hitAngle = atan2(npc.y + 10 - bullet.y, npc.x + 10 - bullet.x);
-                
-                if ((bulletAngle > 0 && hitAngle > 0) || (bulletAngle < 0 && hitAngle < 0)) {
-                    if (abs(hitAngle - bulletAngle) < AVOID_ANGLE * lookout) {
-                        if (hitAngle - bulletAngle < 0) {
-                            goalAngle = bulletAngle + AVOID_ANGLE * npc.safeDist;
-                        }
-                        else {
-                            goalAngle = bulletAngle - AVOID_ANGLE * npc.safeDist;
-                        }
-                        avoid = true;
-                    }
-                }
-                else {
-                    if (abs(abs(hitAngle) - abs(bulletAngle)) < AVOID_ANGLE / 2 * lookout) {
-                        if (bulletAngle < 0) {
-                            if (bullet.vector[0] < 0) {
-                                goalAngle = (bulletAngle + AVOID_ANGLE) * npc.safeDist;
-                            }
-                            else {
-                                goalAngle = (bulletAngle - AVOID_ANGLE) * npc.safeDist;
-                            }
-                        }
-                        else {
-                            if (npc.x + 10 - bullet.x < 0) {
-                                goalAngle = (bulletAngle - AVOID_ANGLE) * npc.safeDist;
-                            }
-                            else {
-                                goalAngle = (bulletAngle + AVOID_ANGLE) * npc.safeDist;
-                            }
-                        }
-                        avoid = true;
-                    }
-                }
-            }
-        }
 
         // generate command to turn (for chasing player or evading bullets)
         if ((goalAngle > 0 && currAngle > 0) || (goalAngle < 0 && currAngle < 0)) {
@@ -124,28 +76,11 @@ var Command = {
             }
         }
         
-        if (avoid) {
-            if (npc.safeDist === FAR) {
-                queue.push(Command.forwardCommand());
-                if (squareDist < TOO_CLOSE) {
-                    npc.safeDist = CLOSE;
-                }
-            }
-            else {
-                queue.push(Command.backwardCommand());
-                if (squareDist > TOO_FAR) {
-                    npc.safeDist = FAR;
-                }
-            }
-        }
         // generate command to chase player
-        else if (squareDist > ON_SIGHT && queue.length == 0) {
+        if (squareDist <= ON_SIGHT && queue.length == 0) {
             queue.push(Command.forwardCommand());
         }
-        // generate command to attack 
-        else if (squareDist <= ON_SIGHT && queue.length == 0) { 
-            queue.push(Command.attackCommand());
-        }
+
         return queue; 
     },
 
@@ -155,7 +90,7 @@ var Command = {
     turnLeftCommand: function() {
         var command = {
             execute: function(actor) {
-                actor.rotate(-TURN_RATE);
+                actor.inputs[TURN_LEFT] = true;
             }
         };
         return command;
@@ -167,7 +102,7 @@ var Command = {
     turnRightCommand: function() {
         var command = {
             execute: function(actor) {
-                actor.rotate(TURN_RATE);
+                actor.inputs[TURN_RIGHT] = true;
             }
         };
         return command;

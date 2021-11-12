@@ -46,7 +46,7 @@ ButtonObj.clicked = function() {
  */
 ButtonObj.clickEvent = function(nextState) {
     if (this.collision(MouseObj.x, MouseObj.y, 0, 0)) {
-        currentState = nextState;
+        currentState = nextState();
         MouseObj.x = -1;
         MouseObj.y = -1;
         if (this.mode != undefined) {

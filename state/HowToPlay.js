@@ -44,7 +44,7 @@ function HowToPlay() {
      * Go back to start screen when user click on the button.
      */
     function update() {
-        backButton.clickEvent(gameStates.start());
+        backButton.clickEvent(gameStates.start);
     }
 
     /**
