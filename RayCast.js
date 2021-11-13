@@ -178,7 +178,7 @@ function RayCast(player, npc) {
 
         
         for (let stripe = drawStartX; stripe < drawEndX; stripe++) {
-            let textureX = floor((stripe - (spriteScreenX)) * 94 / spriteWidth);
+            let textureX = floor((stripe - (-spriteWidth / 2 + spriteScreenX)) * 94 / spriteWidth);
             // following condition need to be met:
             // 1. sprite is not behind the camera
             // 2. sprite is within the left camera boundary
