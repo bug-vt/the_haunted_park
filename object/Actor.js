@@ -17,11 +17,12 @@ var Actor = Object.create(SimpleObj);
 Actor.angle = 0;
 Actor.vector = [0, 0];
 Actor.isAlive = true;
-Actor.inputs = [false, false];
+Actor.inputs = [false, false, false, false];
 Actor.randNum = 0;
 Actor.prevX = this.x;
 Actor.prevY = this.y;
 Actor.timeCheck = performance.now();
+Actor.frame = 0;
 
 Actor.setBullets = function(bullets) {
     this.bullets = bullets;
@@ -72,21 +73,42 @@ Actor.checkCollision = function(obj) {
  * Update state of actor and its position.
  */
 Actor.update = function() {
+    if (frameCount % 6 == 0) {
+        this.frame = (this.frame + 1) % this.img.length;
+    }
     this.prevX = this.x;
     this.prevY = this.y;
-    if (this.inputs[TURN_LEFT]) {
-        this.rotate(-TURN_RATE);
+    if (this.type == PLAYER) {
+        if (this.inputs[TURN_LEFT]) {
+            this.rotate(-TURN_RATE);
+        }
+        if (this.inputs[TURN_RIGHT]) {
+            this.rotate(TURN_RATE);
+        }
+        if (this.inputs[FORWARD]) {
+            this.x -= this.direction[0] * this.speed;
+            this.y -= this.direction[1] * this.speed;
+        }
+        if (this.inputs[BACKWARD]) {
+            this.x += this.direction[0] * this.speed;
+            this.y += this.direction[1] * this.speed;
+        }
     }
-    if (this.inputs[TURN_RIGHT]) {
-        this.rotate(TURN_RATE);
-    }
-    if (this.inputs[FORWARD]) {
-        this.x -= this.direction[0] * this.speed;
-        this.y -= this.direction[1] * this.speed;
-    }
-    if (this.inputs[BACKWARD]) {
-        this.x += this.direction[0] * this.speed;
-        this.y += this.direction[1] * this.speed;
+    else {
+        if (this.inputs[TURN_LEFT]) {
+            this.rotate(-TURN_RATE);
+        }
+        if (this.inputs[TURN_RIGHT]) {
+            this.rotate(TURN_RATE);
+        }
+        if (this.inputs[FORWARD]) {
+            this.x += this.direction[0] * this.speed;
+            this.y += this.direction[1] * this.speed;
+        }
+        if (this.inputs[BACKWARD]) {
+            this.x -= this.direction[0] * this.speed;
+            this.y -= this.direction[1] * this.speed;
+        }
     }
 
     this.inputs = [false, false, false, false];

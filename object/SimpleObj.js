@@ -36,7 +36,8 @@ var SimpleObj = {
     /**
      * To be determined
      */
-    setImg: function() {
+    setImg: function(img) {
+        this.img = img;
     },
 
     /**

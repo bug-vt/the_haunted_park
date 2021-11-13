@@ -17,6 +17,7 @@
 function Player() {
     
     var player = Object.create(Actor);
+    player.setImg([]);
     player.setSpeed(PLAYER_SPD);
     player.setDirection([-1, 0]);
     //player.state = Standing(player);
@@ -30,6 +31,7 @@ function Player() {
 function Npc() {
 
     var npc = Object.create(Actor);
+    npc.setImg(ghostImgs)
     npc.setSpeed(NPC_SPD);
     npc.setDirection([0, -1]);
     npc.state = Wondering();

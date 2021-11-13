@@ -46,10 +46,35 @@ var Command = {
      * @param player : player object.
      * @param npc : npc object that command will be sent to.
      */
-    generateCommand4AI: function(player, npc) {
+    AI_wonder: function(player, npc) {
         let queue = [];
-        let squareDist = Math.pow(player.x - npc.x, 2) + Math.pow(player.y - npc.y, 2);
-        let currAngle = atan2(npc.direction[0][1], npc.direction[0][0]);
+        
+        if (performance.now() - npc.timeCheck > HALF_SEC) {
+            npc.randNum = random();
+            npc.timeCheck = performance.now();
+        }
+
+        if (npc.randNum < 0.25) {
+            queue.push(Command.turnRightCommand());
+        }
+        else if (npc.randNum < 0.5) {
+            queue.push(Command.turnRightCommand());
+        }
+        else if (npc.randNum < 0.75) {
+            queue.push(Command.forwardCommand());
+        }
+
+        return queue; 
+    },
+
+    /**
+     * Generate a command for npc to chase player.
+     *
+     * @param npc : npc object that command will be sent to.
+     */
+    AI_chase: function(player, npc) {
+        let queue = [];
+        let currAngle = atan2(npc.direction[1], npc.direction[0]);
         let goalAngle = atan2(npc.y - player.y, npc.x - player.x);
 
         // generate command to turn (for chasing player or evading bullets)
@@ -77,7 +102,7 @@ var Command = {
         }
         
         // generate command to chase player
-        if (squareDist <= ON_SIGHT && queue.length == 0) {
+        if (queue.length == 0) {
             queue.push(Command.forwardCommand());
         }
 

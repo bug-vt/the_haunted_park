@@ -24,13 +24,15 @@ function Wondering() {
     var state = {
         generateCommands: function(player, npc) {
             let squareDist = Math.pow(player.x - npc.x, 2) + Math.pow(player.y - npc.y, 2);
+            /*
             if (squareDist < ON_SIGHT) {
                 npc.state = Chasing();
-            }
+                return [];
+            } */
             if (npc.path.length > 0) {
-                return Command.AI_chase(npc);
+                return Command.AI_chase(player, npc);
             }
-            return Command.AI_wonder(npc);
+            return Command.AI_wonder(player, npc);
         }
     };
     return state;
@@ -48,11 +50,12 @@ function Chasing() {
             let heading;
             if (squareDist > ON_SIGHT) {
                 npc.state = Wondering();
+                return [];
             }
             if (frameCount % FRAME_RATE == npc.id) {
                 npc.path = Astar().search(player, npc);
             }
-            return Command.AI_chase(npc);
+            return Command.AI_chase(player, npc);
         }
     };
     return state;

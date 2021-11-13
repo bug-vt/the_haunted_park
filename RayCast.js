@@ -12,7 +12,7 @@ var Sprite = {
     }
 };
 
-function RayCast(player) {
+function RayCast(player, npc) {
     var posX = player.x / TILE_SIZE;
     var posY = player.y / TILE_SIZE;
     var dirX = -player.direction[0];
@@ -22,8 +22,11 @@ function RayCast(player) {
     var depth = []; 
     var spriteOrder = [];
     var spriteDistance = [];
-    var sprite = [Object.create(Sprite)];
-    sprite[0].init(5,5,ghostImgs[0]);
+    var sprite = new Array(npc.length);
+    for (let i = 0; i < npc.length; i++) {
+        sprite[i] = Object.create(Sprite);
+        sprite[i].init(npc[i].x / TILE_SIZE, npc[i].y / TILE_SIZE, npc[i].img);
+    }
     
     // wall casting
     for (let x = 0; x < CANVAS_WIDTH; x++)
@@ -149,13 +152,14 @@ function RayCast(player) {
         if (drawEndX >= CANVAS_WIDTH) {
             drawEndX = CANVAS_WIDTH - 1;
         }
+
         
         for (let stripe = drawStartX; stripe < drawEndX; stripe++) {
             let texX = floor((stripe - (spriteScreenX)) * 94 / spriteWidth);
             if (transform[1] > 0 && stripe > 0 && stripe < CANVAS_WIDTH &&
                 transform[1] < depth[stripe]) {
 
-                image(sprite[spriteOrder[i]].img, 
+                image(sprite[spriteOrder[i]].img[npc[0].frame], 
                         stripe, drawStartY, 1, drawEndY - drawStartY, texX);
                 //stroke(255, 0, 0);
                 //line(stripe, drawStartY, stripe, drawEndY);
@@ -164,5 +168,6 @@ function RayCast(player) {
     }
 }
 
-
-
+function sortSprites(order, dist, count) {
+    
+}

@@ -33,7 +33,8 @@ function GameWorld() {
         camera.init(0, 0, MAP_WIDTH, MAP_HEIGHT);
         player.init(360, 200, TILE_SIZE, TILE_SIZE, PLAYER);
         mapLayout = tileMap.getMapLayout();
-        //spawnEntities(NUM_OF_NPC, NPC);
+        spawnEntities(NUM_OF_NPC, NPC);
+        //spawnEntities(1, NPC);
     }
    
     /**
@@ -150,8 +151,8 @@ function GameWorld() {
         //background(222);
         tileMap.render(camera);
 
-        fill(120, 0, 0);
-        rect(100, 100, 20, 20);
+        //fill(120, 0, 0);
+        //rect(100, 100, 20, 20);
 
         for (let entity of gameEntities) {
             entity.render(camera);
@@ -172,7 +173,7 @@ function GameWorld() {
             dust.render(camera);
         }
 
-        RayCast(player);
+        RayCast(player, gameEntities);
         //showScore();    
     }
 
