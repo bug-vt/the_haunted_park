@@ -138,13 +138,7 @@ function RayCast(player) {
         let spriteHeight = abs(floor(CANVAS_HEIGHT / transform[1]));
 
         let drawStartY = floor(-spriteHeight / 2 + CANVAS_HEIGHT / 2);
-        if (drawStartY < 0) {
-            drawStartY = 0;
-        }
         let drawEndY = floor(spriteHeight / 2 + CANVAS_HEIGHT / 2);
-        if (drawEndY >= CANVAS_HEIGHT) {
-            drawEndY = CANVAS_HEIGHT - 1;
-        }
 
         let spriteWidth = abs( floor(CANVAS_HEIGHT / transform[1]));
         let drawStartX = floor(-spriteWidth / 2 + spriteScreenX);
@@ -157,15 +151,14 @@ function RayCast(player) {
         }
         
         for (let stripe = drawStartX; stripe < drawEndX; stripe++) {
-            //let texX = floor((stripe - (-spriteWidth / 2 + spriteScreenX)) * 94 / spriteWidth);
+            let texX = floor((stripe - (spriteScreenX)) * 94 / spriteWidth);
             if (transform[1] > 0 && stripe > 0 && stripe < CANVAS_WIDTH &&
                 transform[1] < depth[stripe]) {
 
-                //let d = floor(y - CANVAS_HEIGHT / 2 + spriteHeight / 2);
-                //let texY = floor(d * 82 / spriteHeight);
-                
-                stroke(255, 0, 0);
-                line(stripe, drawStartY, stripe, drawEndY);
+                image(sprite[spriteOrder[i]].img, 
+                        stripe, drawStartY, 1, drawEndY - drawStartY, texX);
+                //stroke(255, 0, 0);
+                //line(stripe, drawStartY, stripe, drawEndY);
             }
         }
     }
