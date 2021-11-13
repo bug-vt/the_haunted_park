@@ -1,7 +1,7 @@
 /**
  * State.js
  * Author: Bug Lee
- * Last modified: 11/4/21
+ * Last modified: 11/12/21
  *
  * This module contains data structure for State.
  * State determine the behavior of the actor and
@@ -10,7 +10,7 @@
  * for the actor:
  *
  * 1. Wondering 
- * 2. Chasing 
+ * 2. Chasing (Coming soon)
  */
 
 
@@ -40,7 +40,7 @@ function Wondering() {
 
 
 /**
- * Chasing state
+ * Chasing state (Not completed yet.)
  * Actor calcuate shortest path to the destination using Astar serach.
  */
 function Chasing() {

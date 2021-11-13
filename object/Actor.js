@@ -1,7 +1,7 @@
 /**
  * Actor.js
  * Author: Bug Lee
- * Last modified: 10/11/21
+ * Last modified: 11/12/21
  *
  * This module contains data structure for Actor.
  * Actor act base on its state and it state is
@@ -15,7 +15,6 @@
 
 var Actor = Object.create(SimpleObj);
 Actor.angle = 0;
-Actor.vector = [0, 0];
 Actor.isAlive = true;
 Actor.inputs = [false, false, false, false];
 Actor.randNum = 0;
@@ -72,7 +71,7 @@ Actor.checkCollision = function(obj) {
 };
 
 /**
- * Update state of actor and its position.
+ * Update animaion frame of actor and its position.
  */
 Actor.update = function() {
     if (frameCount % 6 == 0) {
@@ -117,12 +116,11 @@ Actor.update = function() {
 };
 
 /**
- * Render actor base on actor's current state.
+ * Render actor on the world map.
  *
  * @param offset : camera object for offset.
  */
 Actor.render = function(offset) {
-    // mutate img for rendering
 
     let renderX = this.x - offset.x;
     let renderY = this.y - offset.y;
@@ -137,8 +135,6 @@ Actor.render = function(offset) {
 
     rect(renderX, renderY, 20, 20);
 
-
-    // restore original img so that it can be reuse for next render.
 };
 
 

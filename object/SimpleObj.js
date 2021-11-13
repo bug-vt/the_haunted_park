@@ -34,7 +34,8 @@ var SimpleObj = {
     },
     
     /**
-     * To be determined
+     * Set the image representing image for the object.
+     * @param img : array of image objects
      */
     setImg: function(img) {
         this.img = img;

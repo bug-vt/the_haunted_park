@@ -1,7 +1,7 @@
 /**
  * Result.js
  * Author: Bug Lee
- * Last modified: 11/4/21
+ * Last modified: 11/12/21
  *
  * This module contains Result data structure.
  * Result screen contains the following:

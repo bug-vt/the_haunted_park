@@ -1,9 +1,9 @@
 /**
  * GameObj.js
  * Author: Bug Lee
- * Last modified: 10/29/21
+ * Last modified: 11/12/21
  *
- * This module contains data structure for Lightning and AniamtionObj.
+ * This module contains data structure for Lightning, AniamtionObj, and Prize.
  */
 
 

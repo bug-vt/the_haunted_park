@@ -1,10 +1,10 @@
 /**
  * GameWorld.js
  * Author: Bug Lee
- * Last modified: 11/4/21
+ * Last modified: 11/12/21
  *
  * This module contain GameWorld data structure.
- * Game world contains tile map, game entities (npc), player,
+ * Game world contains tile map, game entities (npc and prize), player,
  * camera, and dust effects (special effects).
  */
 
@@ -149,6 +149,7 @@ function GameWorld() {
 
     /**
      * Get most up to date image of the game world in current frame.
+     * Render using ray casting method.
      */
     function render() {
         image(background, 0, 0);
@@ -198,7 +199,7 @@ function GameWorld() {
 
     /**
      * Check if end condition of the game have reached.
-     * 1. all the pellets (star pieces) have been collected.
+     * 1. all the keys have been collected.
      * 2. player made contact with any of the NPCs.
      */
     function checkGameEnd() {

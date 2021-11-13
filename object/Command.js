@@ -1,7 +1,7 @@
 /**
  * Command.js
  * Author: Bug Lee
- * Last modified: 10/11/21
+ * Last modified: 11/12/21
  *
  * This module contains data structure for Command.
  * Command is use for providing control input for a actor's state.
@@ -41,7 +41,7 @@ var Command = {
     },
 
     /**
-     * Generate a command for npc.
+     * Generate a command for npc to wonder.
      *
      * @param player : player object.
      * @param npc : npc object that command will be sent to.
@@ -68,8 +68,11 @@ var Command = {
     },
 
     /**
+     * Currently not used. This will be combine with 
+     * graph search tenique later.
      * Generate a command for npc to chase player.
      *
+     * @param player : player object.
      * @param npc : npc object that command will be sent to.
      */
     AI_chase: function(player, npc) {

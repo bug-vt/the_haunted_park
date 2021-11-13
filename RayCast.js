@@ -1,4 +1,15 @@
-
+/**
+ * RayCast.js
+ * Author : Bug Lee
+ * Last modified : 11/12/21
+ *
+ * This module contain data strucutre for ray casting. 
+ * Ray casting can be easily apply to existing tile map game and provide
+ * illusion of 3d world.
+ * This version of ray casing is based on DDA (Digital Differential Analysis)
+ * algorithm and adpated from Lode Vandevenne's website.
+ * https://lodev.org/cgtutor/raycasting3.html
+ */
 
 
 "use strict";
@@ -23,6 +34,7 @@ function RayCast(player, npc) {
     var spriteOrder = [];
     var spriteDistance = [];
     var sprite = new Array(npc.length);
+
     for (let i = 0; i < npc.length; i++) {
         sprite[i] = Object.create(Sprite);
         sprite[i].init(npc[i].x / TILE_SIZE, npc[i].y / TILE_SIZE, npc[i].img);
@@ -44,12 +56,12 @@ function RayCast(player, npc) {
         let deltaDistX = abs(1 / rayDirX);
         let deltaDistY = abs(1 / rayDirY);
 
-        var perpWallDist;
+        var perpendicularWallDist;
 
         let stepX;
         let stepY;
 
-        let hit = 0;
+        let hit = false;
         let side;
 
         if (rayDirX < 0) {
@@ -68,8 +80,10 @@ function RayCast(player, npc) {
             stepY = 1;
             sideDistY = (mapY + 1.0 - posY) * deltaDistY;
         }
-        
-        while (hit == 0)
+      
+        // DDA algorithm
+        // move ray until it hit the wall
+        while (!hit)
         {
             //print(mapX, mapY);
             if (sideDistX < sideDistY) {
@@ -82,19 +96,20 @@ function RayCast(player, npc) {
                 mapY += stepY;
                 side = 1;
             }
-            if (mapLayout[mapY][mapX] == 'w') {
-                hit = 1;
+            if (mapLayout[mapY][mapX] == WALL) {
+                hit = true;
             }
         }
 
-        if (side == 0) {
-            perpWallDist = sideDistX - deltaDistX;
+        if (side == FRONT) {
+            perpendicularWallDist = sideDistX - deltaDistX;
         }
         else {
-            perpWallDist = sideDistY - deltaDistY;
+            perpendicularWallDist = sideDistY - deltaDistY;
         }
 
-        let lineHeight = floor(CANVAS_HEIGHT / perpWallDist);
+        // calcuate drawing size of the wall that would be project to the screen
+        let lineHeight = floor(CANVAS_HEIGHT / perpendicularWallDist);
 
         let drawStart = -lineHeight / 2 + CANVAS_HEIGHT / 2;
         if (drawStart < 0) {
@@ -107,19 +122,23 @@ function RayCast(player, npc) {
 
         switch(mapLayout[mapY][mapX])
         {
-            case 'w': 
-                stroke(0, 0, 255, 255);
+            case WALL: 
+                stroke(120, 120, 120, 255);
                 break;
         }
-
-        if (side == 1) {
-            stroke(0, 0, 120, 255);
+        
+        // darker shade for side view of the wall 
+        if (side == SIDE) {
+            stroke(50, 50, 50, 255);
         }
 
         line(x, drawStart, x, drawEnd);
-        depth[x] = perpWallDist;
+        // store depth info of the wall
+        // this will be used for determining drawing order between sprites
+        depth[x] = perpendicularWallDist;
     }
-
+    
+    // --------------------------
     // sprite casting
     for (let i = 0; i < sprite.length; i++) {
         spriteOrder[i] = i;
@@ -128,16 +147,20 @@ function RayCast(player, npc) {
     //sortSprites(spriteOrder, spriteDistance, sprite.length);
 
     for (let i = 0; i < sprite.length; i++) {
+        // sprite position relative to player/camera
         let spriteX = sprite[spriteOrder[i]].x - posX;
         let spriteY = sprite[spriteOrder[i]].y - posY;
 
+        // calculate sprite's base and depth 
         let invDet = 1.0 / (planeX * dirY - dirX * planeY);
         let transform = Matrix.mult([[dirY, -dirX],[-planeY,planeX]], [spriteX, spriteY]);
-        transform[0] *= invDet;
-        transform[1] *= invDet;
+        transform[0] *= invDet; // base 
+        transform[1] *= invDet; // depth
 
         let spriteScreenX = floor((CANVAS_WIDTH / 2) * (1 + transform[0] / transform[1]));
 
+        // calculate drawing size of the sprite to the screen that would projec
+        // to the screen
         let spriteHeight = abs(floor(CANVAS_HEIGHT / transform[1]));
 
         let drawStartY = floor(-spriteHeight / 2 + CANVAS_HEIGHT / 2);
@@ -155,12 +178,17 @@ function RayCast(player, npc) {
 
         
         for (let stripe = drawStartX; stripe < drawEndX; stripe++) {
-            let texX = floor((stripe - (spriteScreenX)) * 94 / spriteWidth);
+            let textureX = floor((stripe - (spriteScreenX)) * 94 / spriteWidth);
+            // following condition need to be met:
+            // 1. sprite is not behind the camera
+            // 2. sprite is within the left camera boundary
+            // 3. sprite is within the right camera boundary
+            // 4. sprite is front of the wall
             if (transform[1] > 0 && stripe > 0 && stripe < CANVAS_WIDTH &&
                 transform[1] < depth[stripe]) {
 
                 image(sprite[spriteOrder[i]].img[npc[0].frame], 
-                        stripe, drawStartY, 1, drawEndY - drawStartY, texX);
+                        stripe, drawStartY, 1, drawEndY - drawStartY, textureX);
                 //stroke(255, 0, 0);
                 //line(stripe, drawStartY, stripe, drawEndY);
             }
@@ -168,6 +196,9 @@ function RayCast(player, npc) {
     }
 }
 
+/**
+ * To be implemented.
+ */
 function sortSprites(order, dist, count) {
     
 }
