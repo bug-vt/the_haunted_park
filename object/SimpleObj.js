@@ -67,12 +67,6 @@ var SimpleObj = {
         let renderX = this.x - offset.x;
         let renderY = this.y - offset.y;
 
-        if (this.type == PRIZE) {
-            fill(255,255,0);
-            for (let pixel of this.img) {
-                rect(renderX + pixel[0], renderY + pixel[1], 1, 1);
-            }
-        }
     },
 };
 

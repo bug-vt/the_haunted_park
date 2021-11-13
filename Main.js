@@ -45,6 +45,7 @@ var instructionImgs = [];
 
 
 function preload() {
+    background = loadImage("images/dawn.png");
     titleImgs[0] = loadImage("images/title_background.png");
     titleImgs[1] = loadImage("images/title.png");
     titleImgs[2] = loadImage("images/title_dark.png");

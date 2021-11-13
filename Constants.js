@@ -22,6 +22,8 @@ const SPACE_BAR = 32;
 const BUTTON = "@";
 const BIG_TEXT_SIZE = 40;
 const DEFAULT_TEXT_SIZE = 20;
+const WIN = true;
+const OVER = false;
 
 // Tile map
 const TILE_SIZE = 20;
@@ -42,6 +44,7 @@ const GRASS = "^";
 
 // Game world
 const NUM_OF_NPC = 5;
+const NUM_OF_PRIZE = 3;
 const G_DUST = "G";
 const B_DUST = "B";
 const R_DUST = "R";

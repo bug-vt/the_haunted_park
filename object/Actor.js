@@ -58,13 +58,15 @@ Actor.rotate = function(degree) {
  */
 Actor.checkCollision = function(obj) {
     if (this.collision(obj.x, obj.y, obj.width, obj.height)) {
-        if (obj.type == BULLET) {
-            if (this.type === NPC) {
-                this.type = DEAD;
-                score++;
+        if (obj.type == NPC) {
+            if (this.type === PLAYER) {
+                this.isAlive = false;
             }
             obj.type = DEAD;
-            this.isAlive = false;
+        }
+        else if (obj.type === PRIZE) {
+            score++;
+            obj.type = GONE;
         }
     }
 };

@@ -108,12 +108,12 @@ function RayCast(player, npc) {
         switch(mapLayout[mapY][mapX])
         {
             case 'w': 
-                stroke(0, 0, 255);
+                stroke(0, 0, 255, 255);
                 break;
         }
 
         if (side == 1) {
-            stroke(0, 0, 120);
+            stroke(0, 0, 120, 255);
         }
 
         line(x, drawStart, x, drawEnd);

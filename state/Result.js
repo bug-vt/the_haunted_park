@@ -66,7 +66,6 @@ function Result() {
             rect(40, 10, CANVAS_WIDTH - 80, 40);
 
             fill(0, 255, 255); // title color
-            image(images[0], 100, 100, 200, 200); // star
         }
         else { // set up for lose
             // title window
@@ -74,17 +73,6 @@ function Result() {
             rect(40, 10, CANVAS_WIDTH - 80, 40);
 
             fill(255, 0, 0); // title color
-            push();
-            image(pacmanImg[1], 150, 180, 100, 100); // pacman
-            // explosion
-            for (let radius = 0; radius < 120; radius += 6) {
-                fill(255, 0, 0, 100 - radius);
-                circle(160, 200, radius * 1.3);
-            }
-            translate(360, 160);
-            rotate(PI * 0.65);
-            image(enemyImg[0], 80, 150, 100, 100); // enemy 
-            pop();
         }
     }
 
@@ -109,9 +97,11 @@ function Result() {
         // display score
         textSize(DEFAULT_TEXT_SIZE);
         fill(255);
-        text("Score: " + floor(score) + " / " + starCount, CANVAS_WIDTH / 2, 100);
+        text("Score: " + floor(score) + " / " + NUM_OF_PRIZE, CANVAS_WIDTH / 2, 100);
 
         // back button
+        fill(255,255,255, 170);
+        rect(100, 300, 250, 40);
         backButton.render();
     }
 

@@ -62,4 +62,18 @@ var AnimationObj = {
 }
 
 
-   
+/**
+ * Prize is a wrapper for SimpleObj, as it will be treated as game entity.
+ * Prize is part of game entities that interact with player.
+ */
+var Prize = Object.create(SimpleObj);
+Prize.path = [];
+Prize.update = function() {};
+Prize.showEffect = function() {};
+Prize.render = function(offset) {
+
+    let renderX = this.x - offset.x;
+    let renderY = this.y - offset.y;
+
+    image(instructionImgs[1], renderX, renderY, 20, 20);
+}

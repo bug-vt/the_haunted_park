@@ -24,16 +24,18 @@ function GameWorld() {
      * Initialize the game world with 
      * 1. player
      * 2. 400x400 tile map
-     * 3. 4 NPCs
+     * 3. 5 NPCs
+     * 4. 3 Prizes 
      *
      * Also, give camera focus to player.
      */
     function init() {
         tileMap.init(); 
         camera.init(0, 0, MAP_WIDTH, MAP_HEIGHT);
-        player.init(360, 200, TILE_SIZE, TILE_SIZE, PLAYER);
+        player.init(320, 200, TILE_SIZE, TILE_SIZE, PLAYER);
         mapLayout = tileMap.getMapLayout();
         spawnEntities(NUM_OF_NPC, NPC);
+        spawnEntities(NUM_OF_PRIZE, PRIZE);
         //spawnEntities(1, NPC);
     }
    
@@ -58,6 +60,7 @@ function GameWorld() {
                 }
                 else {
                     entity = Object.create(Prize);
+                    entity.setImg([instructionImgs[1], instructionImgs[1]]);
                 }
                 entity.init(posX, posY, TILE_SIZE, TILE_SIZE, type);
                 gameEntities.push(entity);
@@ -108,7 +111,7 @@ function GameWorld() {
         // Delete game entity that no longer exist.
         for (let i = gameEntities.length - 1; i >= 0; i--) {
             if (gameEntities[i].type === GONE) {
-                gameEntities[i].spawnDust(dusts, B_DUST);
+                //gameEntities[i].spawnDust(dusts, B_DUST);
                 gameEntities.splice(i, 1);
             }
         }
@@ -148,33 +151,34 @@ function GameWorld() {
      * Get most up to date image of the game world in current frame.
      */
     function render() {
-        //background(222);
-        tileMap.render(camera);
-
-        //fill(120, 0, 0);
-        //rect(100, 100, 20, 20);
-
-        for (let entity of gameEntities) {
-            entity.render(camera);
-                
-            /*     
-             * Astar path for debugging
-            for (let path of entity.path) {
-                push();
-                fill(255, 0, 0, 70);
-                rect(path[0] * 20, path[1] * 20, 20, 20);
-                pop();
-            }
-            */
-        }
-        player.render(camera);
-
-        for (let dust of dusts) {
-            dust.render(camera);
-        }
-
+        image(background, 0, 0);
         RayCast(player, gameEntities);
-        //showScore();    
+
+        if (keyIsDown(77)) {
+            noStroke();
+            tileMap.render(camera);
+
+            for (let entity of gameEntities) {
+                entity.render(camera);
+                    
+                /*     
+                 * Astar path for debugging
+                for (let path of entity.path) {
+                    push();
+                    fill(255, 0, 0, 70);
+                    rect(path[0] * 20, path[1] * 20, 20, 20);
+                    pop();
+                }
+                */
+            }
+            player.render(camera);
+
+            for (let dust of dusts) {
+                dust.render(camera);
+            }
+        }
+
+        showScore();    
     }
 
     /**
@@ -182,11 +186,13 @@ function GameWorld() {
      */
     function showScore() {
         push();
+        noStroke();
         fill(255, 255, 255, 140);
-        rect(300, 0, 100, 40);
+        //rect(300, 0, 100, 40);
         textSize(DEFAULT_TEXT_SIZE);
-        fill(0);
-        text("Score: " + floor(score), 350, 20);
+        fill(255);
+        text("Score: " + floor(score), 500, 20);
+        text("Press M to see world map", 250, 20);
         pop();
     }
 
@@ -196,7 +202,7 @@ function GameWorld() {
      * 2. player made contact with any of the NPCs.
      */
     function checkGameEnd() {
-        if (score === 1) {
+        if (score === NUM_OF_PRIZE) {
             currentState = gameStates.result();
             currentState.init(WIN);
         }
@@ -214,8 +220,6 @@ function GameWorld() {
 
     return publicAPI;
 }
-        
-
 
 
 

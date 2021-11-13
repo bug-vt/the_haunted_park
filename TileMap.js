@@ -1,7 +1,7 @@
 /**
  * TileMap.js
  * Author: Bug Lee
- * Last modified: 11/4/21
+ * Last modified: 11/12/21
  *
  * This module contains TileMap data structure.
  */
@@ -16,7 +16,7 @@ function TileMap() {
                "w                  w",
                "w                  w",
                "w       wwww       w",
-               "w       w          w",
+               "wwwwwwwww          w",
                "w       w          w",
                "w       w          w",
                "w       wwww       w",
@@ -25,11 +25,11 @@ function TileMap() {
                "w                  w",
                "w                  w",
                "w                  w",
-               "w                  w",
-               "w                  w",
-               "w                  w",
-               "w                  w",
-               "w        ww        w",
+               "w    wwwwww        w",
+               "w         w        w",
+               "w         w        w",
+               "w         w        w",
+               "w         w        w",
                "wwwwwwwwwwwwwwwwwwww"];                  
     var tiles = [];
     var mapLayout = [];
@@ -101,7 +101,6 @@ function TileMap() {
      * @param offset : camera object for offset. 
      */
     function render(offset) {
-        background(222);
         for (let tile of tiles) {
             let renderX = tile.x - offset.x;
             let renderY = tile.y - offset.y;
