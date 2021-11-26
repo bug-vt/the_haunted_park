@@ -131,7 +131,7 @@ function RayCast(player, npc) {
         if (side == SIDE) {
             stroke(50, 50, 50, 255);
         }
-
+        
         line(x, drawStart, x, drawEnd);
         // store depth info of the wall
         // this will be used for determining drawing order between sprites
@@ -159,14 +159,14 @@ function RayCast(player, npc) {
 
         let spriteScreenX = floor((CANVAS_WIDTH / 2) * (1 + transform[0] / transform[1]));
 
-        // calculate drawing size of the sprite to the screen that would projec
+        // calculate drawing size of the sprite to the screen that would project
         // to the screen
-        let spriteHeight = abs(floor(CANVAS_HEIGHT / transform[1]));
+        let spriteHeight = floor(CANVAS_HEIGHT / transform[1]);
 
         let drawStartY = floor(-spriteHeight / 2 + CANVAS_HEIGHT / 2);
         let drawEndY = floor(spriteHeight / 2 + CANVAS_HEIGHT / 2);
 
-        let spriteWidth = abs( floor(CANVAS_HEIGHT / transform[1]));
+        let spriteWidth = floor(CANVAS_HEIGHT / transform[1]);
         let drawStartX = floor(-spriteWidth / 2 + spriteScreenX);
         if (drawStartX < 0) {
             drawStartX = 0;
@@ -178,19 +178,22 @@ function RayCast(player, npc) {
 
         
         for (let stripe = drawStartX; stripe < drawEndX; stripe++) {
-            let textureX = floor((stripe - (-spriteWidth / 2 + spriteScreenX)) * 94 / spriteWidth);
+
             // following condition need to be met:
             // 1. sprite is not behind the camera
             // 2. sprite is within the left camera boundary
             // 3. sprite is within the right camera boundary
             // 4. sprite is front of the wall
-            if (transform[1] > 0 && stripe > 0 && stripe < CANVAS_WIDTH &&
+            if (transform[1] > 0 && stripe >= 0 && stripe < CANVAS_WIDTH &&
                 transform[1] < depth[stripe]) {
+               
+                let img = sprite[spriteOrder[i]].img[npc[0].frame]
+                let textureX = floor((stripe - spriteScreenX) * img.width / spriteWidth);
 
-                image(sprite[spriteOrder[i]].img[npc[0].frame], 
-                        stripe, drawStartY, 1, drawEndY - drawStartY, textureX);
                 //stroke(255, 0, 0);
                 //line(stripe, drawStartY, stripe, drawEndY);
+
+                image(img, stripe, drawStartY, 1, drawEndY - drawStartY, textureX, 0);
             }
         }
     }
