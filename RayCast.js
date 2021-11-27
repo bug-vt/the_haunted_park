@@ -188,12 +188,22 @@ function RayCast(player, npc) {
                 transform[1] < depth[stripe]) {
                
                 let img = sprite[spriteOrder[i]].img[npc[0].frame]
-                let textureX = floor((stripe - spriteScreenX) * img.width / spriteWidth);
-
+                let textureX = floor(
+                                (stripe - spriteScreenX + spriteWidth / 2) // texture offset
+                                        * img.width / spriteWidth); // convert to imgX
+                
+                /*
+                if (textureX < 0) {
+                    textureX = 0;
+                }
                 //stroke(255, 0, 0);
                 //line(stripe, drawStartY, stripe, drawEndY);
+                */
 
-                image(img, stripe, drawStartY, 1, drawEndY - drawStartY, textureX, 0);
+                image(img, stripe, drawStartY,      // img, destX, destY
+                        1, drawEndY - drawStartY,   // dest_width, dest_height 
+                        textureX, 0,                // sourceX, sourceY 
+                        1, img.height);             // source_width, source_height
             }
         }
     }

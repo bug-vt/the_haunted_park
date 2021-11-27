@@ -32,6 +32,7 @@ var gameStates = {
     gameWorld: GameWorld,
     result: Result
 };
+
 var canvas;
 var currentState;
 var score;
@@ -76,7 +77,6 @@ function setup() {
     textAlign(CENTER,CENTER);
     frameRate(FRAME_RATE);
     currentState = gameStates.start();
-    
 }
 
 /**
