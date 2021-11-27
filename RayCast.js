@@ -20,24 +20,24 @@ var Sprite = {
         this.x = x;
         this.y = y;
         this.img = img;
+        this.dist = 0;
     }
 };
 
 function RayCast(player, npc) {
-    var posX = player.x / TILE_SIZE;
-    var posY = player.y / TILE_SIZE;
+    var posX = (player.x + player.width / 2) / TILE_SIZE;
+    var posY = (player.y + player.height / 2) / TILE_SIZE;
     var dirX = -player.direction[0];
     var dirY = -player.direction[1];
     var planeX = player.plane[0];
     var planeY = player.plane[1];
     var depth = []; 
-    var spriteOrder = [];
-    var spriteDistance = [];
     var sprite = new Array(npc.length);
 
     for (let i = 0; i < npc.length; i++) {
         sprite[i] = Object.create(Sprite);
-        sprite[i].init(npc[i].x / TILE_SIZE, npc[i].y / TILE_SIZE, npc[i].img);
+        sprite[i].init((npc[i].x + npc[i].width / 2) / TILE_SIZE, 
+                       (npc[i].y + npc[i].height / 2) / TILE_SIZE, npc[i].img);
     }
     
     // wall casting
@@ -141,26 +141,25 @@ function RayCast(player, npc) {
     // --------------------------
     // sprite casting
     for (let i = 0; i < sprite.length; i++) {
-        spriteOrder[i] = i;
-        spriteDistance[i] = pow(posX - sprite[i].x, 2) + pow(posY - sprite[i].y, 2);
+        sprite[i].dist = pow(posX - sprite[i].x, 2) + pow(posY - sprite[i].y, 2);
     }
-    //sortSprites(spriteOrder, spriteDistance, sprite.length);
+    sprite.sort(sortBy('dist'));
 
     for (let i = 0; i < sprite.length; i++) {
         // sprite position relative to player/camera
-        let spriteX = sprite[spriteOrder[i]].x - posX;
-        let spriteY = sprite[spriteOrder[i]].y - posY;
+        let spriteX = sprite[i].x - posX;
+        let spriteY = sprite[i].y - posY;
 
         // calculate sprite's base and depth 
         let invDet = 1.0 / (planeX * dirY - dirX * planeY);
         let transform = Matrix.mult([[dirY, -dirX],[-planeY,planeX]], [spriteX, spriteY]);
         transform[0] *= invDet; // base 
         transform[1] *= invDet; // depth
-
+        
+        // x position of the sprite on screen
         let spriteScreenX = floor((CANVAS_WIDTH / 2) * (1 + transform[0] / transform[1]));
 
-        // calculate drawing size of the sprite to the screen that would project
-        // to the screen
+        // calculate drawing size of the sprite that would project to the screen
         let spriteHeight = floor(CANVAS_HEIGHT / transform[1]);
 
         let drawStartY = floor(-spriteHeight / 2 + CANVAS_HEIGHT / 2);
@@ -187,18 +186,13 @@ function RayCast(player, npc) {
             if (transform[1] > 0 && stripe >= 0 && stripe < CANVAS_WIDTH &&
                 transform[1] < depth[stripe]) {
                
-                let img = sprite[spriteOrder[i]].img[npc[0].frame]
+                let img = sprite[i].img[npc[0].frame]
                 let textureX = floor(
                                 (stripe - spriteScreenX + spriteWidth / 2) // texture offset
-                                        * img.width / spriteWidth); // convert to imgX
+                                        * img.width / spriteWidth); // convert to x pos in texture 
                 
-                /*
-                if (textureX < 0) {
-                    textureX = 0;
-                }
                 //stroke(255, 0, 0);
                 //line(stripe, drawStartY, stripe, drawEndY);
-                */
 
                 image(img, stripe, drawStartY,      // img, destX, destY
                         1, drawEndY - drawStartY,   // dest_width, dest_height 
@@ -209,9 +203,19 @@ function RayCast(player, npc) {
     }
 }
 
+
 /**
- * To be implemented.
+ * Custom comparator for sort.
+ * compare the object base on specified key.
  */
-function sortSprites(order, dist, count) {
-    
+function sortBy(key) {
+    return function(a, b) {
+        if (a[key] > b[key]) {
+            return -1;
+        }
+        else if (a[key] < b[key]) {
+            return 1;
+        }
+        return 0;
+    };
 }
