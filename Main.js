@@ -44,6 +44,7 @@ var instructionImg;
 var candleImgs = [];
 var candleLightImgs = [];
 var instructionImgs = [];
+var wallImgs = [];
 
 
 function preload() {
@@ -64,6 +65,8 @@ function preload() {
     instructionImgs[0] = loadImage("images/arrow_keys.png");
     instructionImgs[1] = loadImage("images/key.png");
     instructionImgs[2] = loadImage("images/rock.png");
+    wallImgs[0] = loadImage("images/wall.png");
+    wallImgs[1] = loadImage("images/wall_side.png");
 }
 
 

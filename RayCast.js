@@ -112,27 +112,39 @@ function RayCast(player, npc) {
         let lineHeight = floor(CANVAS_HEIGHT / perpendicularWallDist);
 
         let drawStart = -lineHeight / 2 + CANVAS_HEIGHT / 2;
-        if (drawStart < 0) {
-            drawStart = 0;
-        }
         let drawEnd = lineHeight / 2 + CANVAS_HEIGHT / 2;
-        if (drawEnd >= CANVAS_HEIGHT) {
-            drawEnd = CANVAS_HEIGHT - 1;
+
+        // calculate exact position where wall was hit
+        let wallX;
+        if (side == FRONT) {
+            wallX = posY + perpendicularWallDist * rayDirY;
+        }
+        else {
+            wallX = posX + perpendicularWallDist * rayDirX;
+        }
+        wallX -= floor((wallX));
+
+        // x position on the texture
+        let textureX = floor(wallX * wallImgs[0].width);
+        if (side == FRONT && rayDirX > 0) {
+            textureX = wallImgs[0].width - textureX - 1;
+        }
+        if (side == SIDE && rayDirY < 0) {
+            textureX = wallImgs[0].width - textureX - 1;
+        }
+        if (side == SIDE) {
+            image(wallImgs[1], x, drawStart,        // img, destX, destY
+                    1, drawEnd - drawStart,     // dest_width, dest_height 
+                    textureX, 0,                // sourceX, sourceY 
+                    1, wallImgs[0].height);         // source_width, source_height
+        }
+        else {
+            image(wallImgs[0], x, drawStart,        // img, destX, destY
+                    1, drawEnd - drawStart,     // dest_width, dest_height 
+                    textureX, 0,                // sourceX, sourceY 
+                    1, wallImgs[0].height);         // source_width, source_height
         }
 
-        switch(mapLayout[mapY][mapX])
-        {
-            case WALL: 
-                stroke(120, 120, 120, 255);
-                break;
-        }
-        
-        // darker shade for side view of the wall 
-        if (side == SIDE) {
-            stroke(50, 50, 50, 255);
-        }
-        
-        line(x, drawStart, x, drawEnd);
         // store depth info of the wall
         // this will be used for determining drawing order between sprites
         depth[x] = perpendicularWallDist;
