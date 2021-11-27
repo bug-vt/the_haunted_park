@@ -96,19 +96,25 @@ Actor.update = function() {
         }
     }
     else {
-        if (this.inputs[TURN_LEFT]) {
-            this.rotate(-TURN_RATE);
+        let tmpDir = this.direction;
+        if (this.inputs[MOVE_LEFT]) {
+            this.x -= this.speed;
+            tmpDir = [-1,0];
         }
-        if (this.inputs[TURN_RIGHT]) {
-            this.rotate(TURN_RATE);
+        if (this.inputs[MOVE_RIGHT]) {
+            this.x += this.speed;
+            tmpDir = [1,0];
         }
-        if (this.inputs[FORWARD]) {
-            this.x += this.direction[0] * this.speed;
-            this.y += this.direction[1] * this.speed;
+        if (this.inputs[MOVE_UP]) {
+            this.y -= this.speed;
+            tmpDir = [0,-1];
         }
-        if (this.inputs[BACKWARD]) {
-            this.x -= this.direction[0] * this.speed;
-            this.y -= this.direction[1] * this.speed;
+        if (this.inputs[MOVE_DOWN]) {
+            this.y += this.speed;
+            tmpDir = [0,1];
+        }
+        if (this.direction != tmpDir) {
+            this.direction = tmpDir;
         }
     }
 

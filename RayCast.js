@@ -198,7 +198,7 @@ function RayCast(player, npc) {
             if (transform[1] > 0 && stripe >= 0 && stripe < CANVAS_WIDTH &&
                 transform[1] < depth[stripe]) {
                
-                let img = sprite[i].img[npc[0].frame]
+                let img = sprite[i].img[npc[i].frame]
                 let textureX = floor(
                                 (stripe - spriteScreenX + spriteWidth / 2) // texture offset
                                         * img.width / spriteWidth); // convert to x pos in texture 

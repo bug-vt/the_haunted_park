@@ -43,73 +43,61 @@ var Command = {
     /**
      * Generate a command for npc to wonder.
      *
-     * @param player : player object.
      * @param npc : npc object that command will be sent to.
      */
-    AI_wonder: function(player, npc) {
+    AI_wonder: function(npc) {
         let queue = [];
-        
-        if (performance.now() - npc.timeCheck > HALF_SEC) {
-            npc.randNum = random();
-            npc.timeCheck = performance.now();
+          
+        // generate command to wonder
+        if (frameCount % 16 == 0) {
+            npc.randNum = random(); 
         }
-
-        if (npc.randNum < 0.25) {
-            queue.push(Command.turnRightCommand());
+        if (npc.randNum < TRANSITION_PROB) {
+            queue.push(Command.moveLeftCommand());
         }
-        else if (npc.randNum < 0.5) {
-            queue.push(Command.turnRightCommand());
+        else if (npc.randNum < TRANSITION_PROB * 2) {
+            queue.push(Command.moveRightCommand());
         }
-        else if (npc.randNum < 0.75) {
-            queue.push(Command.forwardCommand());
+        else if (npc.randNum < TRANSITION_PROB * 3) {
+            queue.push(Command.moveUpCommand());
         }
-
+        else if (npc.randNum < TRANSITION_PROB * 4) {
+            queue.push(Command.moveDownCommand());
+        }
         return queue; 
     },
 
     /**
-     * Currently not used. This will be combine with 
-     * graph search tenique later.
      * Generate a command for npc to chase player.
      *
-     * @param player : player object.
      * @param npc : npc object that command will be sent to.
      */
-    AI_chase: function(player, npc) {
+    AI_chase: function(npc) {
         let queue = [];
-        let currAngle = atan2(npc.direction[1], npc.direction[0]);
-        let goalAngle = atan2(npc.y - player.y, npc.x - player.x);
+        if (npc.path.length > 0) { 
+            // get the direction from the calculated path
+            let pos = npc.path[0];
+            let posX = pos[0] * TILE_SIZE;
+            let posY = pos[1] * TILE_SIZE;
+            if (npc.x == posX && npc.y == posY) {
+                npc.path.splice(0, 1);
+            }
 
-        // generate command to turn (for chasing player or evading bullets)
-        if ((goalAngle > 0 && currAngle > 0) || (goalAngle < 0 && currAngle < 0)) {
-            if (currAngle - goalAngle > SMALL_ANGLE) {
-                queue.push(Command.turnRightCommand());
+            // generate command to chase player
+            if (npc.x - posX >= NPC_SPD) {
+                queue.push(Command.moveLeftCommand());
             }
-            else if (currAngle - goalAngle < -SMALL_ANGLE) {
-                queue.push(Command.turnLeftCommand());
+            else if (npc.x - posX <= -NPC_SPD)  {
+                queue.push(Command.moveRightCommand());
             }
-        }
-        else {
-            if (currAngle < 0) {
-                currAngle += PI;
+            if (npc.y - posY >= NPC_SPD) {
+                queue.push(Command.moveUpCommand());
             }
-            if (goalAngle < 0) {
-                goalAngle += PI;
-            }
-            if (currAngle - goalAngle > SMALL_ANGLE) {
-                queue.push(Command.turnLeftCommand());
-            }
-            else if (currAngle - goalAngle < -SMALL_ANGLE) {
-                queue.push(Command.turnRightCommand());
+            else if (npc.y - posY <= -NPC_SPD) {
+                queue.push(Command.moveDownCommand());
             }
         }
-        
-        // generate command to chase player
-        if (queue.length == 0) {
-            queue.push(Command.forwardCommand());
-        }
-
-        return queue; 
+        return queue;
     },
 
     /**
@@ -167,6 +155,54 @@ var Command = {
         var command = {
             execute: function(actor) {
                 actor.spawnBullet();
+            }
+        };
+        return command;
+    },
+
+    /**
+     * command the actor to move left.
+     */
+    moveLeftCommand: function() {
+        var command = {
+            execute: function(actor) {
+                actor.inputs[MOVE_LEFT] = true;
+            }
+        };
+        return command;
+    },
+
+    /**
+     * command the actor to move right.
+     */
+    moveRightCommand: function() {
+        var command = {
+            execute: function(actor) {
+                actor.inputs[MOVE_RIGHT] = true;
+            }
+        };
+        return command;
+    },
+
+    /**
+     * command the actor to move up.
+     */
+    moveUpCommand: function() {
+        var command = {
+            execute: function(actor) {
+                actor.inputs[MOVE_UP] = true;
+            }
+        };
+        return command;
+    },
+
+    /**
+     * command actor to move down.
+     */
+    moveDownCommand: function() {
+        var command = {
+            execute: function(actor) {
+                actor.inputs[MOVE_DOWN] = true;
             }
         };
         return command;

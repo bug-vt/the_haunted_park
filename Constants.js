@@ -56,13 +56,19 @@ const FORWARD = 0;
 const BACKWARD = 1;
 const TURN_LEFT = 2;
 const TURN_RIGHT = 3;
+const MOVE_LEFT = 0;
+const MOVE_RIGHT = 1;
+const MOVE_UP = 2;
+const MOVE_DOWN = 3;
+
+const TRANSITION_PROB = 0.25;
 const NPC_SPD = 0.5;
 const PLAYER_SPD = 1;
 const ON_SIGHT = 19600;
 const TURN_RATE = 4;
 const BULLET_SIZE = 4;
 const BULLET_SPD = 2;
-const SMALL_ANGLE = 5 * Math.PI / 180;
+//const SMALL_ANGLE = 5 * Math.PI / 180;
 
 // Ray casting
 const FRONT = 0;

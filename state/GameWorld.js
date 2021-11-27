@@ -34,9 +34,9 @@ function GameWorld() {
         camera.init(0, 0, MAP_WIDTH, MAP_HEIGHT);
         player.init(320, 200, TILE_SIZE, TILE_SIZE, PLAYER);
         mapLayout = tileMap.getMapLayout();
-        spawnEntities(NUM_OF_NPC, NPC);
+        //spawnEntities(NUM_OF_NPC, NPC);
         spawnEntities(NUM_OF_PRIZE, PRIZE);
-        //spawnEntities(1, NPC);
+        spawnEntities(1, NPC);
     }
    
     /**
@@ -155,7 +155,7 @@ function GameWorld() {
         image(background, 0, 0);
         RayCast(player, gameEntities);
 
-        if (keyIsDown(77)) {
+        if (true || keyIsDown(77)) {
             noStroke();
             tileMap.render(camera);
 
@@ -164,13 +164,13 @@ function GameWorld() {
                     
                 /*     
                  * Astar path for debugging
+                 */
                 for (let path of entity.path) {
                     push();
                     fill(255, 0, 0, 70);
                     rect(path[0] * 20, path[1] * 20, 20, 20);
                     pop();
                 }
-                */
             }
             player.render(camera);
 

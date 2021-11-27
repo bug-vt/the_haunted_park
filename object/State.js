@@ -24,15 +24,13 @@ function Wondering() {
     var state = {
         generateCommands: function(player, npc) {
             let squareDist = Math.pow(player.x - npc.x, 2) + Math.pow(player.y - npc.y, 2);
-            /*
             if (squareDist < ON_SIGHT) {
                 npc.state = Chasing();
-                return [];
-            } */
-            if (npc.path.length > 0) {
-                return Command.AI_chase(player, npc);
             }
-            return Command.AI_wonder(player, npc);
+            if (npc.path.length > 0) {
+                return Command.AI_chase(npc);
+            }
+            return Command.AI_wonder(npc);
         }
     };
     return state;
@@ -40,22 +38,21 @@ function Wondering() {
 
 
 /**
- * Chasing state (Not completed yet.)
+ * Chasing state
  * Actor calcuate shortest path to the destination using Astar serach.
  */
 function Chasing() {
     var state = {
         generateCommands: function(player, npc) {
             let squareDist = Math.pow(player.x - npc.x, 2) + Math.pow(player.y - npc.y, 2);
-            let heading;
             if (squareDist > ON_SIGHT) {
                 npc.state = Wondering();
-                return [];
             }
             if (frameCount % FRAME_RATE == npc.id) {
                 npc.path = Astar().search(player, npc);
+                npc.path.splice(0,1);
             }
-            return Command.AI_chase(player, npc);
+            return Command.AI_chase(npc);
         }
     };
     return state;
