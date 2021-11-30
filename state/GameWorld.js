@@ -154,6 +154,7 @@ function GameWorld() {
     function render() {
         image(background, 0, 0);
         RayCast(player, gameEntities);
+        //image(lightImg,0,0);
 
         if (keyIsDown(77)) {
             noStroke();

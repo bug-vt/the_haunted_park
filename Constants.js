@@ -68,9 +68,9 @@ const ON_SIGHT = 19600;
 const TURN_RATE = 4;
 const BULLET_SIZE = 4;
 const BULLET_SPD = 2;
-//const SMALL_ANGLE = 5 * Math.PI / 180;
 
 // Ray casting
+const PLAYER_SIGHT = 7;
 const FRONT = 0;
 const SIDE = 1;
 const FRONT_VIEW = 0;

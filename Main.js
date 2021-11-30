@@ -45,6 +45,7 @@ var candleImgs = [];
 var candleLightImgs = [];
 var instructionImgs = [];
 var wallImgs = [];
+var lightImg;
 
 
 function preload() {
@@ -65,6 +66,7 @@ function preload() {
     instructionImgs[1] = loadImage("images/key.png");
     instructionImgs[2] = loadImage("images/rock.png");
     // game imgs
+    lightImg = loadImage("images/light.png");
     background = loadImage("images/dawn.png");
     wallImgs[0] = loadImage("images/wall.png");
     wallImgs[1] = loadImage("images/wall_side.png");
@@ -84,6 +86,8 @@ function preload() {
     ghostImgs[13] = loadImage("images/ghost_back_angle4.png");
     ghostImgs[14] = loadImage("images/ghost_side3.png");
     ghostImgs[15] = loadImage("images/ghost_side4.png");
+    ghostImgs[16] = loadImage("images/ghost_dark1.png");
+    ghostImgs[17] = loadImage("images/ghost_dark2.png");
 }
 
 
