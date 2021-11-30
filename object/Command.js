@@ -35,7 +35,7 @@ var Command = {
             queue.push(Command.turnRightCommand());
         }
         if (keyIsDown(SPACE_BAR)) {
-            //queue.push(Command.attackCommand());
+            queue.push(Command.attackCommand());
         }
         return queue;
     },

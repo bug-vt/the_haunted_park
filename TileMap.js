@@ -80,6 +80,13 @@ function TileMap() {
         let row = floor(obj.y / TILE_SIZE); 
         let index = column + row * MAP_COLUMN;
 
+        // check collision with bullets
+        if (obj.type == BULLET) {
+            if (tiles[index].type === WALL) {
+                obj.type = DEAD;
+            }
+            return;
+        }
         // check left, right, up, and down
         // base one given positin of object
         let neighbors = [index, index + 1, 

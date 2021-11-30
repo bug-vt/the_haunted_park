@@ -59,7 +59,7 @@ var AnimationObj = {
         this.y = y;
         this.frame = 0;
     }
-}
+};
 
 
 /**
@@ -67,7 +67,6 @@ var AnimationObj = {
  * Prize is part of game entities that interact with player.
  */
 var Prize = Object.create(SimpleObj);
-Prize.path = [];
 Prize.frame = 0;
 Prize.update = function() {
     if (frameCount % 6 == 0) {
@@ -81,4 +80,25 @@ Prize.render = function(offset) {
     let renderY = this.y - offset.y;
 
     image(instructionImgs[1], renderX, renderY, 20, 20);
-}
+};
+
+
+/**
+ * Bullet object interact with game entities and create
+ * dust effect once it hit something.
+ */
+var Bullet = Object.create(SimpleObj);
+Bullet.frame = 0;
+Bullet.setDirection = function(dx, dy) {
+    this.vector = [dx * BULLET_SPD, dy * BULLET_SPD]; 
+};
+Bullet.update = function() {
+    this.x += this.vector[0];
+    this.y += this.vector[1];
+};
+Bullet.render = function(offset) {
+    let renderX = this.x - offset.x;
+    let renderY = this.y - offset.y;
+    fill(200, 0, 0);
+    rect(renderX, renderY, this.width, this.height);
+};

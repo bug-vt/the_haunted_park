@@ -36,6 +36,21 @@ Actor.setDirection = function(direction) {
     this.direction = direction;
 };
 
+/**
+ * Spawn bullet object to shoot.
+ * Direction of the bullet is same as direction of the actor.
+ */
+Actor.spawnBullet = function() {
+    if (performance.now() - this.timeCheck > ONE_SEC) {
+        let bullet = Object.create(Bullet);
+        bullet.setImg([instructionImgs[2], instructionImgs[2]]);
+        bullet.init(this.x, this.y, BULLET_SIZE, BULLET_SIZE, BULLET);
+        bullet.setDirection(-this.direction[0], -this.direction[1]);
+        this.bullets.push(bullet); 
+
+        this.timeCheck = performance.now();
+    }
+}
 
 /** 
  * Rotate the actor.

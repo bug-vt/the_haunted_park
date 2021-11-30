@@ -17,7 +17,6 @@ function GameWorld() {
     var tileMap = TileMap();
     var gameEntities = [];
     var player = Player(); 
-    var dusts = [];
     init(); 
 
     /*
@@ -33,6 +32,7 @@ function GameWorld() {
         tileMap.init(); 
         camera.init(0, 0, MAP_WIDTH, MAP_HEIGHT);
         player.init(320, 200, TILE_SIZE, TILE_SIZE, PLAYER);
+        player.setBullets(gameEntities);
         mapLayout = tileMap.getMapLayout();
         spawnEntities(NUM_OF_NPC, NPC);
         //spawnEntities(1, NPC);
@@ -95,7 +95,6 @@ function GameWorld() {
      * Check collision between objects.
      */
     function applyPhysics() {
-
         for (let entity of gameEntities) {
             tileMap.collision(entity);
             player.checkCollision(entity);
@@ -110,15 +109,9 @@ function GameWorld() {
     function collectGarbage() {
         // Delete game entity that no longer exist.
         for (let i = gameEntities.length - 1; i >= 0; i--) {
-            if (gameEntities[i].type === GONE) {
+            if (gameEntities[i].type === GONE || gameEntities[i].type === DEAD) {
                 //gameEntities[i].spawnDust(dusts, B_DUST);
                 gameEntities.splice(i, 1);
-            }
-        }
-        // Delete dust effect that no longer exist.
-        for (let i = dusts.length - 1; i >= 0; i--) {
-            if (dusts[i].type === DEAD) {
-                dusts.splice(i, 1);
             }
         }
     }
@@ -132,10 +125,6 @@ function GameWorld() {
             entity.update();
         }
         player.update();
-
-        for (let dust of dusts) {
-            dust.update();
-        }
 
         applyPhysics();
 
@@ -156,28 +145,26 @@ function GameWorld() {
         RayCast(player, gameEntities);
         //image(lightImg,0,0);
 
-        if (keyIsDown(77)) {
+        if (true || keyIsDown(77)) {
             noStroke();
             tileMap.render(camera);
 
             for (let entity of gameEntities) {
                 entity.render(camera);
-                    
+                
                 /*     
                  * Astar path for debugging
                  */
-                for (let path of entity.path) {
-                    push();
-                    fill(255, 0, 0, 70);
-                    rect(path[0] * 20, path[1] * 20, 20, 20);
-                    pop();
+                if (entity.type == NPC) {
+                    for (let path of entity.path) {
+                        push();
+                        fill(255, 0, 0, 70);
+                        rect(path[0] * 20, path[1] * 20, 20, 20);
+                        pop();
+                    }
                 }
             }
             player.render(camera);
-
-            for (let dust of dusts) {
-                dust.render(camera);
-            }
         }
 
         showScore();    
