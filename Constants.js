@@ -73,3 +73,11 @@ const BULLET_SPD = 2;
 // Ray casting
 const FRONT = 0;
 const SIDE = 1;
+const FRONT_VIEW = 0;
+const FRONT_LEFT_VIEW = 1;
+const SIDE_LEFT_VIEW = 2;
+const BACK_LEFT_VIEW = 3;
+const BACK_VIEW = 4;
+const FRONT_RIGHT_VIEW = 5;
+const BACK_RIGHT_VIEW = 6;
+const SIDE_RIGHT_VIEW = 7;

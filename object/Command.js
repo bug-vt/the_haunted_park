@@ -35,7 +35,7 @@ var Command = {
             queue.push(Command.turnRightCommand());
         }
         if (keyIsDown(SPACE_BAR)) {
-            queue.push(Command.attackCommand());
+            //queue.push(Command.attackCommand());
         }
         return queue;
     },
@@ -49,7 +49,7 @@ var Command = {
         let queue = [];
           
         // generate command to wonder
-        if (frameCount % 16 == 0) {
+        if (frameCount % FRAME_RATE == 0) {
             npc.randNum = random(); 
         }
         if (npc.randNum < TRANSITION_PROB) {

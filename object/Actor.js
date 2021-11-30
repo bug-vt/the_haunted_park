@@ -14,7 +14,6 @@
 
 
 var Actor = Object.create(SimpleObj);
-Actor.angle = 0;
 Actor.isAlive = true;
 Actor.inputs = [false, false, false, false];
 Actor.randNum = 0;
@@ -22,6 +21,7 @@ Actor.prevX = this.x;
 Actor.prevY = this.y;
 Actor.timeCheck = performance.now();
 Actor.frame = 0;
+Actor.maxFrame = 2;
 
 Actor.setBullets = function(bullets) {
     this.bullets = bullets;
@@ -46,7 +46,6 @@ Actor.rotate = function(degree) {
         this.plane = RotationMatrix(degree).mult(this.plane);
     }
     this.direction = RotationMatrix(degree).mult(this.direction);
-    this.angle += degree;
 };
 
 /**
@@ -75,7 +74,7 @@ Actor.checkCollision = function(obj) {
  */
 Actor.update = function() {
     if (frameCount % 6 == 0) {
-        this.frame = (this.frame + 1) % this.img.length;
+        this.frame = (this.frame + 1) % this.maxFrame;
     }
     this.prevX = this.x;
     this.prevY = this.y;
@@ -99,19 +98,19 @@ Actor.update = function() {
         let tmpDir = this.direction;
         if (this.inputs[MOVE_LEFT]) {
             this.x -= this.speed;
-            tmpDir = [-1,0];
+            tmpDir = [1,0];
         }
         if (this.inputs[MOVE_RIGHT]) {
             this.x += this.speed;
-            tmpDir = [1,0];
+            tmpDir = [-1,0];
         }
         if (this.inputs[MOVE_UP]) {
             this.y -= this.speed;
-            tmpDir = [0,-1];
+            tmpDir = [0,1];
         }
         if (this.inputs[MOVE_DOWN]) {
             this.y += this.speed;
-            tmpDir = [0,1];
+            tmpDir = [0,-1];
         }
         if (this.direction != tmpDir) {
             this.direction = tmpDir;
@@ -142,5 +141,6 @@ Actor.render = function(offset) {
     rect(renderX, renderY, 20, 20);
 
 };
+
 
 

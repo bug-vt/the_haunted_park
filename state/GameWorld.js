@@ -34,9 +34,9 @@ function GameWorld() {
         camera.init(0, 0, MAP_WIDTH, MAP_HEIGHT);
         player.init(320, 200, TILE_SIZE, TILE_SIZE, PLAYER);
         mapLayout = tileMap.getMapLayout();
-        //spawnEntities(NUM_OF_NPC, NPC);
+        spawnEntities(NUM_OF_NPC, NPC);
+        //spawnEntities(1, NPC);
         spawnEntities(NUM_OF_PRIZE, PRIZE);
-        spawnEntities(1, NPC);
     }
    
     /**
@@ -56,7 +56,7 @@ function GameWorld() {
                 let posY = row * TILE_SIZE;
                 if (type === NPC) {
                     entity = Npc();
-                    entity.setID(count * 5);
+                    entity.setID(count * 10);
                 }
                 else {
                     entity = Object.create(Prize);
@@ -155,7 +155,7 @@ function GameWorld() {
         image(background, 0, 0);
         RayCast(player, gameEntities);
 
-        if (true || keyIsDown(77)) {
+        if (keyIsDown(77)) {
             noStroke();
             tileMap.render(camera);
 

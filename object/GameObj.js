@@ -69,7 +69,11 @@ var AnimationObj = {
 var Prize = Object.create(SimpleObj);
 Prize.path = [];
 Prize.frame = 0;
-Prize.update = function() {};
+Prize.update = function() {
+    if (frameCount % 6 == 0) {
+        this.frame = (this.frame + 1) % this.img.length;
+    }
+};
 Prize.showEffect = function() {};
 Prize.render = function(offset) {
 

@@ -16,11 +16,12 @@
 
 
 var Sprite = {
-    init: function(x, y, img) {
+    init: function(x, y, order, img) {
         this.x = x;
         this.y = y;
         this.img = img;
         this.dist = 0;
+        this.order = order;
     }
 };
 
@@ -37,7 +38,8 @@ function RayCast(player, npc) {
     for (let i = 0; i < npc.length; i++) {
         sprite[i] = Object.create(Sprite);
         sprite[i].init((npc[i].x + npc[i].width / 2) / TILE_SIZE, 
-                       (npc[i].y + npc[i].height / 2) / TILE_SIZE, npc[i].img);
+                       (npc[i].y + npc[i].height / 2) / TILE_SIZE, 
+                        i, npc[i].img);
     }
     
     // wall casting
@@ -133,16 +135,16 @@ function RayCast(player, npc) {
             textureX = wallImgs[0].width - textureX - 1;
         }
         if (side == SIDE) {
-            image(wallImgs[1], x, drawStart,        // img, destX, destY
+            image(wallImgs[1], x, drawStart,    // img, destX, destY
                     1, drawEnd - drawStart,     // dest_width, dest_height 
                     textureX, 0,                // sourceX, sourceY 
-                    1, wallImgs[0].height);         // source_width, source_height
+                    1, wallImgs[0].height);     // source_width, source_height
         }
         else {
-            image(wallImgs[0], x, drawStart,        // img, destX, destY
+            image(wallImgs[0], x, drawStart,    // img, destX, destY
                     1, drawEnd - drawStart,     // dest_width, dest_height 
                     textureX, 0,                // sourceX, sourceY 
-                    1, wallImgs[0].height);         // source_width, source_height
+                    1, wallImgs[0].height);     // source_width, source_height
         }
 
         // store depth info of the wall
@@ -197,8 +199,12 @@ function RayCast(player, npc) {
             // 4. sprite is front of the wall
             if (transform[1] > 0 && stripe >= 0 && stripe < CANVAS_WIDTH &&
                 transform[1] < depth[stripe]) {
-               
-                let img = sprite[i].img[npc[i].frame]
+                let currNpc = npc[sprite[i].order];
+                let frame = currNpc.frame;
+                if (currNpc.type == NPC) {
+                    frame += pointOfView(player.direction, currNpc.direction) * currNpc.maxFrame;
+                }
+                let img = sprite[i].img[frame];
                 let textureX = floor(
                                 (stripe - spriteScreenX + spriteWidth / 2) // texture offset
                                         * img.width / spriteWidth); // convert to x pos in texture 
@@ -215,6 +221,38 @@ function RayCast(player, npc) {
     }
 }
 
+function pointOfView(plyDir, npcDir) {
+    let heading = createVector(plyDir[0], plyDir[1], 0);
+    let view = createVector(plyDir[0] + npcDir[0], plyDir[1] + npcDir[1], 0);
+    let viewAngle = heading.angleBetween(view);
+    let npcAngle = viewAngle * 180 / PI;
+    
+    if (npcAngle < -79) {
+        return FRONT_VIEW;
+    }
+    else if (npcAngle < -56) {
+        return FRONT_LEFT_VIEW;
+    }
+    else if (npcAngle < -34) {
+        return SIDE_LEFT_VIEW;
+    }
+    else if (npcAngle < -11) {
+        return BACK_LEFT_VIEW;
+    }
+    if (npcAngle < 11) {
+        return BACK_VIEW;
+    }
+    else if (npcAngle < 34) {
+        return BACK_RIGHT_VIEW;
+    }
+    else if (npcAngle < 56) {
+        return SIDE_RIGHT_VIEW;
+    }
+    else if (npcAngle < 79) {
+        return FRONT_RIGHT_VIEW;
+    }
+    return FRONT_VIEW;
+}
 
 /**
  * Custom comparator for sort.

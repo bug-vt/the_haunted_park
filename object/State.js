@@ -24,7 +24,10 @@ function Wondering() {
     var state = {
         generateCommands: function(player, npc) {
             let squareDist = Math.pow(player.x - npc.x, 2) + Math.pow(player.y - npc.y, 2);
-            if (squareDist < ON_SIGHT) {
+            let heading = createVector(npc.direction[0], npc.direction[1], 0);
+            let target = createVector(player.x - npc.x, player.y - npc.y, 0);
+            let targetAngle = heading.angleBetween(target) * 180 / PI;
+            if (squareDist < ON_SIGHT && abs(targetAngle) < 40) {
                 npc.state = Chasing();
             }
             if (npc.path.length > 0) {

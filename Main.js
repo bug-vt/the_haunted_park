@@ -48,25 +48,42 @@ var wallImgs = [];
 
 
 function preload() {
-    background = loadImage("images/dawn.png");
+    // start screen imgs
     titleImgs[0] = loadImage("images/title_background.png");
     titleImgs[1] = loadImage("images/title.png");
     titleImgs[2] = loadImage("images/title_dark.png");
     lightningImg = loadImage("images/lightning.png");
-    ghostImgs[0] = loadImage("images/ghost_front1.png");
-    ghostImgs[1] = loadImage("images/ghost_front2.png");
-    instructionImg = loadImage("images/instruction.png");
+    // instruction screen imgs
     candleImgs[0] = loadImage("images/candle1.png");
     candleImgs[1] = loadImage("images/candle2.png");
     candleLightImgs[0] = loadImage("images/candle_light.png");
     candleLightImgs[1] = loadImage("images/candle_light2.png");
     candleLightImgs[2] = loadImage("images/candle_light3.png");
     candleLightImgs[3] = loadImage("images/candle_light4.png");
+    instructionImg = loadImage("images/instruction.png");
     instructionImgs[0] = loadImage("images/arrow_keys.png");
     instructionImgs[1] = loadImage("images/key.png");
     instructionImgs[2] = loadImage("images/rock.png");
+    // game imgs
+    background = loadImage("images/dawn.png");
     wallImgs[0] = loadImage("images/wall.png");
     wallImgs[1] = loadImage("images/wall_side.png");
+    ghostImgs[0] = loadImage("images/ghost_front1.png");
+    ghostImgs[1] = loadImage("images/ghost_front2.png");
+    ghostImgs[2] = loadImage("images/ghost_front_angle1.png");
+    ghostImgs[3] = loadImage("images/ghost_front_angle2.png");
+    ghostImgs[4] = loadImage("images/ghost_side1.png");
+    ghostImgs[5] = loadImage("images/ghost_side2.png");
+    ghostImgs[6] = loadImage("images/ghost_back_angle1.png");
+    ghostImgs[7] = loadImage("images/ghost_back_angle2.png");
+    ghostImgs[8] = loadImage("images/ghost_back1.png");
+    ghostImgs[9] = loadImage("images/ghost_back2.png");
+    ghostImgs[10] = loadImage("images/ghost_front_angle3.png");
+    ghostImgs[11] = loadImage("images/ghost_front_angle4.png");
+    ghostImgs[12] = loadImage("images/ghost_back_angle3.png");
+    ghostImgs[13] = loadImage("images/ghost_back_angle4.png");
+    ghostImgs[14] = loadImage("images/ghost_side3.png");
+    ghostImgs[15] = loadImage("images/ghost_side4.png");
 }
 
 
