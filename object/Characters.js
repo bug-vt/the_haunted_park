@@ -39,6 +39,7 @@ function Npc() {
     npc.setID = function(id) {
         this.id = id;
     };
+    npc.stuck = 0;
  
 
     return npc;

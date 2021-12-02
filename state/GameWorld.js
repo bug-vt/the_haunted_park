@@ -34,10 +34,11 @@ function GameWorld() {
         tileMap.rockNoise(noises);
         camera.init(0, 0, MAP_WIDTH, MAP_HEIGHT);
         player.init(320, 200, TILE_SIZE, TILE_SIZE, PLAYER);
+        //player.init(180, 300, TILE_SIZE, TILE_SIZE, PLAYER);
         player.setBullets(gameEntities);
         mapLayout = tileMap.getMapLayout();
-        //spawnEntities(NUM_OF_NPC, NPC);
-        spawnEntities(1, NPC);
+        spawnEntities(NUM_OF_NPC, NPC);
+        //spawnEntities(1, NPC);
         spawnEntities(NUM_OF_PRIZE, PRIZE);
     }
    
@@ -100,6 +101,18 @@ function GameWorld() {
         for (let entity of gameEntities) {
             tileMap.collision(entity);
             player.checkCollision(entity);
+            
+            // check if npc is stuck somewhere
+            if (entity.type == NPC) {
+                if (entity.prevX == entity.x && entity.prevY == entity.y && 
+                    entity.path.length > 0) {
+
+                    entity.stuck++;
+                    if (entity.stuck > entity.path.length * 4) {
+                        entity.path = [];
+                    }
+                }
+            }
         }
         
         tileMap.collision(player);

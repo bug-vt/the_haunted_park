@@ -15,6 +15,7 @@ const HALF_CANVAS_WIDTH = CANVAS_WIDTH / 2;
 const HALF_CANVAS_HEIGHT = CANVAS_HEIGHT / 2;
 const FRAME_RATE = 60;
 const ONE_SEC = 1000;
+const TWO_SEC = 2000;
 const HALF_SEC = 500;
 const SPACE_BAR = 32;
 

@@ -24,7 +24,7 @@ function Wondering() {
     var state = {
         generateCommands: function(player, npc, noises) {
             let squareDist = Math.pow(player.x - npc.x, 2) + Math.pow(player.y - npc.y, 2);
-            let heading = createVector(npc.direction[0], npc.direction[1], 0);
+            let heading = createVector(-npc.direction[0], -npc.direction[1], 0);
             let target = createVector(player.x - npc.x, player.y - npc.y, 0);
             let targetAngle = heading.angleBetween(target) * 180 / PI;
             if (squareDist < ON_SIGHT && abs(targetAngle) < 40) {
@@ -38,6 +38,7 @@ function Wondering() {
                 if (noiseDist < ON_SIGHT) {
                     npc.path = Astar().search(noise, npc);
                     npc.path.splice(0,1);
+                    npc.stuck = 0;
                     break;
                 }
             }
@@ -61,7 +62,10 @@ function Chasing() {
             }
             if (frameCount % FRAME_RATE == npc.id) {
                 npc.path = Astar().search(player, npc);
-                npc.path.splice(0,1);
+                if (npc.stuck < npc.path.length * 2) {
+                    npc.path.splice(0,1);
+                }
+                npc.stuck = 0;
             }
             return Command.AI_chase(npc);
         }

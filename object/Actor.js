@@ -41,7 +41,7 @@ Actor.setDirection = function(direction) {
  * Direction of the bullet is same as direction of the actor.
  */
 Actor.spawnBullet = function() {
-    if (performance.now() - this.timeCheck > ONE_SEC) {
+    if (performance.now() - this.timeCheck > TWO_SEC) {
         let bullet = Object.create(Bullet);
         bullet.setImg([instructionImgs[2], instructionImgs[2]]);
         bullet.init(this.x, this.y, BULLET_SIZE, BULLET_SIZE, BULLET);
