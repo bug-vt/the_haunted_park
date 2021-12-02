@@ -22,7 +22,7 @@
  */
 function Wondering() {
     var state = {
-        generateCommands: function(player, npc) {
+        generateCommands: function(player, npc, noises) {
             let squareDist = Math.pow(player.x - npc.x, 2) + Math.pow(player.y - npc.y, 2);
             let heading = createVector(npc.direction[0], npc.direction[1], 0);
             let target = createVector(player.x - npc.x, player.y - npc.y, 0);
@@ -32,6 +32,14 @@ function Wondering() {
             }
             if (npc.path.length > 0) {
                 return Command.AI_chase(npc);
+            }
+            for (noise of noises) {
+                let noiseDist = Math.pow(noise.x - npc.x, 2) + Math.pow(noise.y - npc.y, 2);
+                if (noiseDist < ON_SIGHT) {
+                    npc.path = Astar().search(noise, npc);
+                    npc.path.splice(0,1);
+                    break;
+                }
             }
             return Command.AI_wonder(npc);
         }
@@ -46,7 +54,7 @@ function Wondering() {
  */
 function Chasing() {
     var state = {
-        generateCommands: function(player, npc) {
+        generateCommands: function(player, npc, noises) {
             let squareDist = Math.pow(player.x - npc.x, 2) + Math.pow(player.y - npc.y, 2);
             if (squareDist > ON_SIGHT) {
                 npc.state = Wondering();

@@ -17,6 +17,7 @@ function GameWorld() {
     var tileMap = TileMap();
     var gameEntities = [];
     var player = Player(); 
+    var noises = [];
     init(); 
 
     /*
@@ -30,12 +31,13 @@ function GameWorld() {
      */
     function init() {
         tileMap.init(); 
+        tileMap.rockNoise(noises);
         camera.init(0, 0, MAP_WIDTH, MAP_HEIGHT);
         player.init(320, 200, TILE_SIZE, TILE_SIZE, PLAYER);
         player.setBullets(gameEntities);
         mapLayout = tileMap.getMapLayout();
-        spawnEntities(NUM_OF_NPC, NPC);
-        //spawnEntities(1, NPC);
+        //spawnEntities(NUM_OF_NPC, NPC);
+        spawnEntities(1, NPC);
         spawnEntities(NUM_OF_PRIZE, PRIZE);
     }
    
@@ -83,7 +85,7 @@ function GameWorld() {
         
         for (let entity of gameEntities) {
             if (entity.type === NPC) {
-                let AIcommands = entity.state.generateCommands(player, entity);
+                let AIcommands = entity.state.generateCommands(player, entity, noises);
                 for (let command of AIcommands) {
                     command.execute(entity);
                 }
@@ -113,6 +115,9 @@ function GameWorld() {
                 //gameEntities[i].spawnDust(dusts, B_DUST);
                 gameEntities.splice(i, 1);
             }
+        }
+        if (frameCount % FRAME_RATE == 0 && noises.length > 0) {
+            noises.splice(0, 1);
         }
     }
 
@@ -144,7 +149,7 @@ function GameWorld() {
         image(background, 0, 0);
         RayCast(player, gameEntities);
         //image(lightImg,0,0);
-
+        
         if (true || keyIsDown(77)) {
             noStroke();
             tileMap.render(camera);
@@ -165,6 +170,9 @@ function GameWorld() {
                 }
             }
             player.render(camera);
+        }
+        for (noise of noises) {
+            noise.render(camera);
         }
 
         showScore();    

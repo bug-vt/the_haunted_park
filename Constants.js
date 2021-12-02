@@ -50,6 +50,7 @@ const B_DUST = "B";
 const R_DUST = "R";
 const SMOKE = "S";
 const BULLET = ".";
+const NOISE = "O";
 
 // Actor 
 const FORWARD = 0;

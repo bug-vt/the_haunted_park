@@ -33,6 +33,7 @@ function TileMap() {
                "wwwwwwwwwwwwwwwwwwww"];                  
     var tiles = [];
     var mapLayout = [];
+    var noises = [];
 
     /**
      * Initialize tile map using the pre-defined array of strings.
@@ -62,6 +63,10 @@ function TileMap() {
         }
     }
 
+    function rockNoise(rock_noises) {
+        noises = rock_noises;
+    }
+
     /** 
      * Get the current layout of the tile map.
      */
@@ -84,6 +89,9 @@ function TileMap() {
         if (obj.type == BULLET) {
             if (tiles[index].type === WALL) {
                 obj.type = DEAD;
+                noise = Object.create(SimpleObj);
+                noise.init(obj.prevX, obj.prevY, 5, 5, NOISE);
+                noises.push(noise);
             }
             return;
         }
@@ -121,6 +129,7 @@ function TileMap() {
 
     var publicAPI = {
         init: init,
+        rockNoise: rockNoise,
         getMapLayout: getMapLayout,
         collision: collision,
         render: render 

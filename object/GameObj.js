@@ -89,10 +89,14 @@ Prize.render = function(offset) {
  */
 var Bullet = Object.create(SimpleObj);
 Bullet.frame = 0;
+Bullet.prevX = 0;
+Bullet.prevY = 0;
 Bullet.setDirection = function(dx, dy) {
     this.vector = [dx * BULLET_SPD, dy * BULLET_SPD]; 
 };
 Bullet.update = function() {
+    this.prevX = this.x;
+    this.prevY = this.y;
     this.x += this.vector[0];
     this.y += this.vector[1];
 };
