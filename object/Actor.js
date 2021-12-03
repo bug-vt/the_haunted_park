@@ -149,10 +149,7 @@ Actor.render = function(offset) {
     if (this.type === NPC) {
         fill(255, 100, 100);
     } 
-    else if (this.type === DEAD) {
-        fill(100);
-    }
-
+    
     rect(renderX, renderY, 20, 20);
 
 };

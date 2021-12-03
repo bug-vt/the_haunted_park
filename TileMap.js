@@ -101,19 +101,25 @@ function TileMap() {
             }
             return;
         }
+
+        let atExit = false;
         // check left, right, up, and down
         // base one given positin of object
         let neighbors = [index, index + 1, 
                          index + MAP_COLUMN, index + MAP_COLUMN + 1];
-                
+          
         for (let neighbor of neighbors) {
             if (tiles[neighbor].type != GROUND &&
                 tiles[neighbor].collision(obj.x, obj.y, obj.width, obj.height)) {
-                
+                 
                 obj.x = obj.prevX;
                 obj.y = obj.prevY;
+                if (tiles[neighbor].type == DOOR) {
+                    atExit = true;            
+                }
             }
         }
+        return atExit;
     }
 
     /**
@@ -127,8 +133,9 @@ function TileMap() {
             let renderY = tile.y - offset.y;
 
             if (tile.type === WALL) {
-                fill(0);
-                rect(renderX, renderY, 20, 20);
+                image(wallImgs[0], renderX, renderY, TILE_SIZE, TILE_SIZE, 0, 0, 60, 60);
+                //fill(0);
+                //rect(renderX, renderY, 20, 20);
             }
             else if (tile.type === DOOR) {
                 fill(0,0,255);

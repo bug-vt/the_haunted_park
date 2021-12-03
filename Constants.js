@@ -54,6 +54,9 @@ const SMOKE = "S";
 const BULLET = ".";
 const NOISE = "O";
 
+// error
+const NOT_ENOUGH_KEYS = 1;
+
 // Actor 
 const FORWARD = 0;
 const BACKWARD = 1;

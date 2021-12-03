@@ -22,8 +22,8 @@ function HowToPlay() {
     var instruction =
         "1. Use arrow keys to move and rotate your point of view.\n\n" +
         "2. Avoid ghosts!\n\n" +
-        "3. Find the exit and the key to unlock it.\n\n" +  
-        "4. If ghost haven't seen you yet, throw a rock to distract the ghosts.\n"; 
+        "3. Find the exit and keys to unlock it.\n\n" +  
+        "4. If ghost haven't seen you yet, throw a rock (space bar) to distract the ghosts.\n"; 
 
     backButton.init(170, 320, 200, 50, BUTTON);
     backButton.text("< Back to main menu");
@@ -69,7 +69,7 @@ function HowToPlay() {
         image(ghostImgs[ghost.frame], ghost.x, ghost.y, 50, 45);
         image(instructionImgs[0], 50, 95);
         image(instructionImgs[1], 50, 210);
-        image(instructionImgs[2], 60, 270);
+        image(instructionImgs[2], 30, 230);
     }
 
     /**

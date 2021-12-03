@@ -47,7 +47,8 @@ var candleImgs = [];
 var candleLightImgs = [];
 var instructionImgs = [];
 var wallImgs = [];
-var lightImg;
+var sightImgs = [];
+var mapImgs = [];
 
 
 function preload() {
@@ -68,7 +69,10 @@ function preload() {
     instructionImgs[1] = loadImage("images/key.png");
     instructionImgs[2] = loadImage("images/rock.png");
     // game imgs
-    lightImg = loadImage("images/light.png");
+    mapImgs[0] = loadImage("images/map.png");
+    mapImgs[1] = loadImage("images/map_boarder.png");
+    sightImgs[0] = loadImage("images/light.png");
+    sightImgs[1] = loadImage("images/sight.png");
     backgroundImgs[0] = loadImage("images/park_background3.png");
     backgroundImgs[1] = loadImage("images/park_background2.png");
     backgroundImgs[2] = loadImage("images/park_background1.png");

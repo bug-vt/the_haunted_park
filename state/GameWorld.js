@@ -19,6 +19,7 @@ function GameWorld() {
     var player = Player(); 
     var noises = [];
     var background = Background();
+    var error = 0;
     init(); 
 
     /*
@@ -81,9 +82,11 @@ function GameWorld() {
      * AI inputs will be directed to the npc.
      */
     function handleInput() {
-        let UserCommands = Command.handleInput();
-        for (let command of UserCommands) {
-            command.execute(player);
+        if (!keyIsDown(77)) {
+            let UserCommands = Command.handleInput();
+            for (let command of UserCommands) {
+                command.execute(player);
+            }
         }
         
         for (let entity of gameEntities) {
@@ -117,7 +120,9 @@ function GameWorld() {
             }
         }
         
-        tileMap.collision(player);
+        if (tileMap.collision(player)) {
+            checkGameEnd(WIN);
+        }
     }
 
     /**
@@ -154,7 +159,7 @@ function GameWorld() {
 
         camera.focusOn(player);
         
-        checkGameEnd();
+        checkGameEnd(OVER);
         
     }
 
@@ -163,17 +168,17 @@ function GameWorld() {
      * Render using ray casting method.
      */
     function render() {
-        background.render();
-        image(groundImg, 0, 200);
-        RayCast(player, gameEntities);
-        //image(lightImg,0,0);
-        
         if (keyIsDown(77)) {
+            image(mapImgs[0], 0, 0);
             noStroke();
             tileMap.render(camera);
 
             for (let entity of gameEntities) {
-                entity.render(camera);
+                let squareDist = Math.pow(player.x - entity.x, 2) + 
+                                    Math.pow(player.y - entity.y, 2);
+                if (squareDist < ON_SIGHT) {
+                    entity.render(camera);
+                }
                 
                 /*     
                  * Astar path for debugging
@@ -191,24 +196,41 @@ function GameWorld() {
             for (noise of noises) {
                 noise.render(camera);
             }
+            let renderX = -CANVAS_WIDTH + player.x + 10;
+            let renderY = -CANVAS_HEIGHT + player.y + 10;
+            image(sightImgs[1], renderX, renderY);
+            image(mapImgs[1], 0, 0);
         }
-
+        else {
+            background.render();
+            image(groundImg, 0, 200);
+            RayCast(player, gameEntities);
+            image(sightImgs[0],0,0);
+            displayGuide();
+        }
         showScore();    
     }
-
+    
+    function displayGuide() {
+        push();
+        fill(255);
+        textSize(DEFAULT_TEXT_SIZE);
+        text("Press M to see world map", 250, 20);
+        if (error == NOT_ENOUGH_KEYS) {
+            text("Collect " + NUM_OF_PRIZE + " keys to unlock the door.", 275, 200); 
+            error = 0;
+        }
+        pop();
+    }
     /**
      * Display current score on the top right corner.
      */
     function showScore() {
         push();
-        noStroke();
-        fill(255, 255, 255, 140);
-        //rect(300, 0, 100, 40);
-        textSize(DEFAULT_TEXT_SIZE);
         fill(255);
+        textSize(DEFAULT_TEXT_SIZE);
         image(instructionImgs[1], 470, 5, 25, 25);
         text(" x " + floor(score), 515, 20);
-        text("Press M to see world map", 250, 20);
         pop();
     }
 
@@ -217,14 +239,21 @@ function GameWorld() {
      * 1. all the keys have been collected.
      * 2. player made contact with any of the NPCs.
      */
-    function checkGameEnd() {
-        if (score === NUM_OF_PRIZE) {
-            currentState = gameStates.result();
-            currentState.init(WIN);
+    function checkGameEnd(option) {
+        if (option == WIN) {
+            if (score === NUM_OF_PRIZE) {
+                currentState = gameStates.result();
+                currentState.init(WIN);
+            }
+            else {
+                error = NOT_ENOUGH_KEYS;
+            }
         }
-        else if (player.isAlive === false) {
-            currentState = gameStates.result();
-            currentState.init(OVER);
+        else {
+            if (option == OVER && player.isAlive === false) {
+                currentState = gameStates.result();
+                currentState.init(OVER);
+            }
         }
     }
 
