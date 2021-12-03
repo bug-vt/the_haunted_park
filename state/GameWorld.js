@@ -18,6 +18,7 @@ function GameWorld() {
     var gameEntities = [];
     var player = Player(); 
     var noises = [];
+    var background = Background();
     init(); 
 
     /*
@@ -40,6 +41,7 @@ function GameWorld() {
         spawnEntities(NUM_OF_NPC, NPC);
         //spawnEntities(1, NPC);
         spawnEntities(NUM_OF_PRIZE, PRIZE);
+        background.init(player, backgroundImgs);
     }
    
     /**
@@ -139,6 +141,8 @@ function GameWorld() {
      */
     function update() {
 
+        background.update();
+
         for (let entity of gameEntities) {
             entity.update();
         }
@@ -159,11 +163,12 @@ function GameWorld() {
      * Render using ray casting method.
      */
     function render() {
-        image(background, 0, 0);
+        background.render();
+        image(groundImg, 0, 200);
         RayCast(player, gameEntities);
         //image(lightImg,0,0);
         
-        if (true || keyIsDown(77)) {
+        if (keyIsDown(77)) {
             noStroke();
             tileMap.render(camera);
 
@@ -183,9 +188,9 @@ function GameWorld() {
                 }
             }
             player.render(camera);
-        }
-        for (noise of noises) {
-            noise.render(camera);
+            for (noise of noises) {
+                noise.render(camera);
+            }
         }
 
         showScore();    
@@ -201,7 +206,8 @@ function GameWorld() {
         //rect(300, 0, 100, 40);
         textSize(DEFAULT_TEXT_SIZE);
         fill(255);
-        text("Score: " + floor(score), 500, 20);
+        image(instructionImgs[1], 470, 5, 25, 25);
+        text(" x " + floor(score), 515, 20);
         text("Press M to see world map", 250, 20);
         pop();
     }

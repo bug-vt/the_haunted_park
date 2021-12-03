@@ -32,10 +32,10 @@ function Result() {
     function init(result) {
         state = result;
         if (result === WIN) {
-            title = "YOU WIN!";
+            title = "GAME CLEAR!";
         }
         else {
-            title = "YOU LOSE!";
+            title = "GAME OVER!";
         }
     }
 

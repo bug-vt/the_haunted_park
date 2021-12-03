@@ -38,6 +38,8 @@ var currentState;
 var score;
 var mapLayout;
 var titleImgs = [];
+var backgroundImgs = [];
+var groundImg;
 var ghostImgs = [];
 var lightningImg;
 var instructionImg;
@@ -67,9 +69,15 @@ function preload() {
     instructionImgs[2] = loadImage("images/rock.png");
     // game imgs
     lightImg = loadImage("images/light.png");
-    background = loadImage("images/dawn.png");
+    backgroundImgs[0] = loadImage("images/park_background3.png");
+    backgroundImgs[1] = loadImage("images/park_background2.png");
+    backgroundImgs[2] = loadImage("images/park_background1.png");
+    backgroundImgs[3] = loadImage("images/park_background2.png");
+    groundImg = loadImage("images/ground.png");
     wallImgs[0] = loadImage("images/wall.png");
     wallImgs[1] = loadImage("images/wall_side.png");
+    wallImgs[2] = loadImage("images/exit.png");
+    wallImgs[3] = loadImage("images/exit_side.png");
     ghostImgs[0] = loadImage("images/ghost_front1.png");
     ghostImgs[1] = loadImage("images/ghost_front2.png");
     ghostImgs[2] = loadImage("images/ghost_front_angle1.png");

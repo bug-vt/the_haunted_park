@@ -98,7 +98,7 @@ function RayCast(player, npc) {
                 mapY += stepY;
                 side = 1;
             }
-            if (mapLayout[mapY][mapX] == WALL) {
+            if (mapLayout[mapY][mapX] == WALL || mapLayout[mapY][mapX] == DOOR) {
                 hit = true;
             }
         }
@@ -139,14 +139,18 @@ function RayCast(player, npc) {
             rect(x, drawStart, 1, drawEnd - drawStart);
         }
         else {
+            let offset = 0;
+            if (mapLayout[mapY][mapX] == DOOR) {
+                offset = 2;
+            }
             if (side == SIDE) {
-                image(wallImgs[1], x, drawStart,    // img, destX, destY
+                image(wallImgs[1 + offset], x, drawStart,    // img, destX, destY
                         1, drawEnd - drawStart,     // dest_width, dest_height 
                         textureX, 0,                // sourceX, sourceY 
                         1, wallImgs[0].height);     // source_width, source_height
             }
             else {
-                image(wallImgs[0], x, drawStart,    // img, destX, destY
+                image(wallImgs[0 + offset], x, drawStart,    // img, destX, destY
                         1, drawEnd - drawStart,     // dest_width, dest_height 
                         textureX, 0,                // sourceX, sourceY 
                         1, wallImgs[0].height);     // source_width, source_height

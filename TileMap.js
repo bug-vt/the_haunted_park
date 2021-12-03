@@ -21,7 +21,7 @@ function TileMap() {
                "w       w          w",
                "w       wwww       w",
                "w                  w",
-               "w                  w",
+               "w                  E",
                "w                  w",
                "w                  w",
                "w                  w",
@@ -52,6 +52,12 @@ function TileMap() {
                     wall.init(posX, posY, TILE_SIZE, TILE_SIZE, WALL);
                     tiles.push(wall);
                     mapLayout[row].push(WALL);
+                }
+                else if (type === DOOR) {
+                    let door = Object.create(SimpleObj);
+                    door.init(posX, posY, TILE_SIZE, TILE_SIZE, DOOR);
+                    tiles.push(door);
+                    mapLayout[row].push(DOOR);
                 }
                 else {
                     let ground = Object.create(SimpleObj);
@@ -87,7 +93,7 @@ function TileMap() {
 
         // check collision with bullets
         if (obj.type == BULLET) {
-            if (tiles[index].type === WALL) {
+            if (tiles[index].type != GROUND) {
                 obj.type = DEAD;
                 noise = Object.create(SimpleObj);
                 noise.init(obj.prevX, obj.prevY, 5, 5, NOISE);
@@ -101,7 +107,7 @@ function TileMap() {
                          index + MAP_COLUMN, index + MAP_COLUMN + 1];
                 
         for (let neighbor of neighbors) {
-            if (tiles[neighbor].type === WALL &&
+            if (tiles[neighbor].type != GROUND &&
                 tiles[neighbor].collision(obj.x, obj.y, obj.width, obj.height)) {
                 
                 obj.x = obj.prevX;
@@ -122,6 +128,10 @@ function TileMap() {
 
             if (tile.type === WALL) {
                 fill(0);
+                rect(renderX, renderY, 20, 20);
+            }
+            else if (tile.type === DOOR) {
+                fill(0,0,255);
                 rect(renderX, renderY, 20, 20);
             }
         }

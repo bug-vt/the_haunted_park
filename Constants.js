@@ -34,6 +34,7 @@ const MAP_ROW = MAP_HEIGHT / TILE_SIZE;
 const MAP_COLUMN = MAP_WIDTH / TILE_SIZE;
 //const CEILING = "^";
 const WALL = "w";
+const DOOR = "E";
 const GROUND = "-"; 
 const EMPTY = " ";
 const PRIZE = "*";

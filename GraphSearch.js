@@ -125,7 +125,8 @@ function Astar() {
                 }
                 
                 // no path (wall)
-                if (mapLayout[node_pos[1]][node_pos[0]] == WALL) {
+                if (mapLayout[node_pos[1]][node_pos[0]] == WALL ||
+                    mapLayout[node_pos[1]][node_pos[0]] == DOOR) {
                     continue;
                 }
 
