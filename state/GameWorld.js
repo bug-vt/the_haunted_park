@@ -65,7 +65,7 @@ function GameWorld() {
                 let posY = row * TILE_SIZE;
                 if (type === NPC) {
                     entity = Npc();
-                    entity.setID(count * 10);
+                    entity.setID((count * 11) % FRAME_RATE);
                 }
                 else {
                     entity = Object.create(Prize);
@@ -135,7 +135,6 @@ function GameWorld() {
         // Delete game entity that no longer exist.
         for (let i = gameEntities.length - 1; i >= 0; i--) {
             if (gameEntities[i].type === GONE || gameEntities[i].type === DEAD) {
-                //gameEntities[i].spawnDust(dusts, B_DUST);
                 gameEntities.splice(i, 1);
             }
         }
@@ -180,19 +179,19 @@ function GameWorld() {
             for (let entity of gameEntities) {
                 let squareDist = Math.pow(player.x - entity.x, 2) + 
                                     Math.pow(player.y - entity.y, 2);
-                if (squareDist < ON_SIGHT) {
+                if (squareDist <= ON_SIGHT) {
                     entity.render(camera);
                 }
                 
                 /*     
                  * Astar path for debugging
                  */
-                /*
+                /* 
                 if (entity.type == NPC) {
                     for (let path of entity.path) {
                         push();
                         fill(255, 0, 0, 70);
-                        rect(path[0] * 20, path[1] * 20, 20, 20);
+                        rect(path[0] * 20 - camera.x, path[1] * 20 - camera.y, 20, 20);
                         pop();
                     }
                 }*/

@@ -155,7 +155,7 @@ function RayCast(player, npc) {
                         textureX, 0,                // sourceX, sourceY 
                         1, wallImgs[0].height);     // source_width, source_height
             }
-            if (perpendicularWallDist >= PLAYER_SIGHT - 3) {
+            if (perpendicularWallDist >= PLAYER_SIGHT / 2) {
                 fill(0, perpendicularWallDist * 15);
                 rect(x, drawStart, 1, drawEnd - drawStart);
             }

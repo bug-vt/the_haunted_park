@@ -22,7 +22,7 @@ function Result() {
     var first = true;
     var backButton = Object.create(ButtonObj);
 
-    backButton.init(100, CANVAS_HEIGHT * 3/4, 200, 50, undefined);
+    backButton.init(160, CANVAS_HEIGHT * 3/4, 200, 50, undefined);
     backButton.text("Back to main menu");
 
     /**
@@ -101,7 +101,7 @@ function Result() {
 
         // back button
         fill(255,255,255, 170);
-        rect(100, 300, 250, 40);
+        rect(160, 300, 200, 40);
         backButton.render();
     }
 
