@@ -103,6 +103,6 @@ Bullet.update = function() {
 Bullet.render = function(offset) {
     let renderX = this.x - offset.x;
     let renderY = this.y - offset.y;
-    fill(200, 0, 0);
+    fill(0);
     rect(renderX, renderY, this.width, this.height);
 };

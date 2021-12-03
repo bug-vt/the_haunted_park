@@ -73,9 +73,14 @@ Actor.checkCollision = function(obj) {
     if (this.collision(obj.x, obj.y, obj.width, obj.height)) {
         if (obj.type == NPC) {
             if (this.type === PLAYER) {
+                let heading = createVector(-this.direction[0], -this.direction[1], 0);
+                let target = createVector(obj.x - this.x, obj.y - this.y, 0);
+                let targetAngle = heading.angleBetween(target) * 180 / PI;
+                if (abs(targetAngle) < 40) {
+                    this.caughtOffGaurd = false;
+                }
                 this.isAlive = false;
             }
-            obj.type = DEAD;
         }
         else if (obj.type === PRIZE) {
             score++;
@@ -145,12 +150,14 @@ Actor.render = function(offset) {
     let renderX = this.x - offset.x;
     let renderY = this.y - offset.y;
 
-    fill(150, 150, 255);
-    if (this.type === NPC) {
-        fill(255, 100, 100);
+    if (this.type === PLAYER) {
+        fill(150, 150, 255);
+        circle(renderX + this.width / 2, renderY + this.height / 2, 20);
+    }
+    else if (this.type === NPC) {
+        image(this.img[this.frame], renderX - 5, renderY - 5, 30, 30); 
     } 
     
-    rect(renderX, renderY, 20, 20);
 
 };
 

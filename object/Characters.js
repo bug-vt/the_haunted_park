@@ -22,6 +22,7 @@ function Player() {
     //player.state = Standing(player);
     player.setDirection([-1, 0]); // direction vector
     player.plane = [0, 0.66]; // camara (projection) plane
+    player.caughtOffGaurd = true;
     
 
     return player;

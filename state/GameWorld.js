@@ -35,7 +35,7 @@ function GameWorld() {
         tileMap.init(); 
         tileMap.rockNoise(noises);
         camera.init(0, 0, MAP_WIDTH, MAP_HEIGHT);
-        player.init(320, 200, TILE_SIZE, TILE_SIZE, PLAYER);
+        player.init(720, 700, TILE_SIZE/2, TILE_SIZE/2, PLAYER);
         //player.init(180, 300, TILE_SIZE, TILE_SIZE, PLAYER);
         player.setBullets(gameEntities);
         mapLayout = tileMap.getMapLayout();
@@ -55,8 +55,11 @@ function GameWorld() {
         let count = 0;
         let entity;
         while (count < number) {
-            let col = floor(random(1, MAP_COLUMN - 12));
+            let col = floor(random(1, MAP_COLUMN - 1));
             let row = floor(random(1, MAP_ROW - 1));
+            if (col > 28 && row > 25) {
+                continue;
+            }
             if (taken[row][col] != WALL) {
                 let posX = col * TILE_SIZE;
                 let posY = row * TILE_SIZE;
@@ -167,11 +170,12 @@ function GameWorld() {
      * Get most up to date image of the game world in current frame.
      * Render using ray casting method.
      */
-    function render() {
-        if (keyIsDown(77)) {
-            image(mapImgs[0], 0, 0);
+    function render(force) {
+        if (keyIsDown(77) || force) {
             noStroke();
+            image(mapImgs[0], 0, 0);
             tileMap.render(camera);
+            player.render(camera);
 
             for (let entity of gameEntities) {
                 let squareDist = Math.pow(player.x - entity.x, 2) + 
@@ -183,6 +187,7 @@ function GameWorld() {
                 /*     
                  * Astar path for debugging
                  */
+                /*
                 if (entity.type == NPC) {
                     for (let path of entity.path) {
                         push();
@@ -190,14 +195,13 @@ function GameWorld() {
                         rect(path[0] * 20, path[1] * 20, 20, 20);
                         pop();
                     }
-                }
+                }*/
             }
-            player.render(camera);
             for (noise of noises) {
                 noise.render(camera);
             }
-            let renderX = -CANVAS_WIDTH + player.x + 10;
-            let renderY = -CANVAS_HEIGHT + player.y + 10;
+            let renderX = -HALF_CANVAS_WIDTH + player.width / 2; 
+            let renderY = -HALF_CANVAS_HEIGHT + player.height / 2; 
             image(sightImgs[1], renderX, renderY);
             image(mapImgs[1], 0, 0);
         }
@@ -251,6 +255,9 @@ function GameWorld() {
         }
         else {
             if (option == OVER && player.isAlive === false) {
+                if (player.caughtOffGaurd) {
+                    render(true);
+                }
                 currentState = gameStates.result();
                 currentState.init(OVER);
             }

@@ -28,8 +28,8 @@ const OVER = false;
 
 // Tile map
 const TILE_SIZE = 20;
-const MAP_WIDTH = 400;
-const MAP_HEIGHT = 400;
+const MAP_WIDTH = 800;
+const MAP_HEIGHT = 800;
 const MAP_ROW = MAP_HEIGHT / TILE_SIZE;
 const MAP_COLUMN = MAP_WIDTH / TILE_SIZE;
 //const CEILING = "^";
@@ -45,7 +45,7 @@ const GONE = "$";
 const GRASS = "^";
 
 // Game world
-const NUM_OF_NPC = 5;
+const NUM_OF_NPC = 10;
 const NUM_OF_PRIZE = 3;
 const G_DUST = "G";
 const B_DUST = "B";
@@ -87,3 +87,68 @@ const BACK_VIEW = 4;
 const FRONT_RIGHT_VIEW = 5;
 const BACK_RIGHT_VIEW = 6;
 const SIDE_RIGHT_VIEW = 7;
+
+// world map
+const MAP1 = ["wwwwwwwwwwwwwwwwwwww",
+              "w        ww        w",
+              "w                  w",
+              "w                  w",
+              "w       wwww       w",
+              "wwwwwwwww          w",
+              "w       w          w",
+              "w       w          w",
+              "w       wwww       w",
+              "w                  w",
+              "w                  E",
+              "w                  w",
+              "w                  w",
+              "w                  w",
+              "w    wwwwww        w",
+              "w         w        w",
+              "w         w        w",
+              "w         w        w",
+              "w         w        w",
+              "wwwwwwwwwwwwwwwwwwww"];                  
+
+const MAP2 = [
+"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+"w            ww               www      w",
+"w                             w        w",
+"w                                      w",
+"w                      w               w",
+"w         wwwww        w               w",
+"w         w            w               w",
+"wwwwwwwwwww            w   wwwwww      w",
+"w                      w               w",
+"w                      w            wwww",
+"w                      w            wwww",
+"w                                      w",
+"w                                      w",
+"w                                      w",
+"w                  w                   w",
+"w           wwww   w                   w",
+"E           w  wwwww   ww      wwww    w",
+"w           w           w      wwww    w",
+"w           w           w      wwww    w",
+"w           w           w      wwww    w",
+"w           w           w              w",
+"w           w                          w",
+"w           w                          w",
+"w           w                          w",
+"w           w   wwwwwwwww              w",
+"wwwwwwwwwww w                wwwwwwwwwww",
+"w         w w                w         w",
+"w           w               ww         w",
+"w         wwwwwww           w          w",
+"w                           w          w",
+"w                           w          w",
+"w                                      w",
+"w                               w      w",
+"w     wwwwwwww                  w      w",
+"w            w                  w      w",
+"w            w                  w      E",
+"w            w                  w      w",
+"w            w       www        w      w",
+"w            w       www        w      w",
+"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+];

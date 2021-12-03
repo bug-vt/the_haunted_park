@@ -11,26 +11,7 @@
 
 
 function TileMap() {
-    var map = ["wwwwwwwwwwwwwwwwwwww",
-               "w        ww        w",
-               "w                  w",
-               "w                  w",
-               "w       wwww       w",
-               "wwwwwwwww          w",
-               "w       w          w",
-               "w       w          w",
-               "w       wwww       w",
-               "w                  w",
-               "w                  E",
-               "w                  w",
-               "w                  w",
-               "w                  w",
-               "w    wwwwww        w",
-               "w         w        w",
-               "w         w        w",
-               "w         w        w",
-               "w         w        w",
-               "wwwwwwwwwwwwwwwwwwww"];                  
+    var map = MAP2;                 
     var tiles = [];
     var mapLayout = [];
     var noises = [];

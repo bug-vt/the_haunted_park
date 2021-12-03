@@ -69,7 +69,7 @@ var SimpleObj = {
         let renderY = this.y - offset.y;
 
         if (this.type == NOISE) {
-            fill(255);
+            fill(0);
             rect(renderX, renderY, this.width, this.height);
         }
     },

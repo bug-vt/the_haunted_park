@@ -20,8 +20,14 @@ def main(argv, arc):
     x = 0
     y = 0
     for pixel in pixels:
-        if pixel == (0,0,0,255):
-            out.append((x, y))
+        if pixel == (0,0,0,255) or pixel == (0,0,0):
+            out.append("w")
+        elif pixel == (255,0,0,255) or pixel == (255,0,0):
+            out.append("E")
+        else:
+            if pixel == (0,0,255,255) or pixel == (0,0,255):
+                print("player pos: %d,%d" % (x,y))
+            out.append(" ")
         x += 1
         if x % width == 0:
             x = 0
@@ -32,15 +38,16 @@ def main(argv, arc):
         if random.random() <= 1:
             sampleOut.append(sample)
 
+    print("\"", end='')
     column = 0
     for i in sampleOut:
-        print(", [%d, %d]" % (i[0], i[1]), end='')
+        print("%s" % (i), end='')
 
         column += 1
-        if column % 8 == 0:
-            print()
+        if column % 40 == 0:
+            print("\",\n\"", end='')
 
-        pix[i[0], i[1]] = (0, 0, 0, 255)
+        # pix[i[0], i[1]] = (0, 0, 0, 255)
     
     modified_img = argv[1][0]+'_mod.png'
     img.save(modified_img)
