@@ -1,23 +1,24 @@
 /**
  * GameWorld.js
  * Author: Bug Lee
- * Last modified: 11/12/21
+ * Last modified: 12/3/21
  *
  * This module contain GameWorld data structure.
- * Game world contains tile map, game entities (npc and prize), player,
- * camera, and dust effects (special effects).
+ * Game world contains tile map, game entities (npc, prize, and rock), 
+ * player, camera, noises (not sound effets), and background.
  */
 
 "use strict";
 
 
 function GameWorld() {
-    score = 0;
+    startTime = performance.now(); // game starting time
+    score = 0; // number of collected keys
     var camera = Object.create(Camera);
     var tileMap = TileMap();
     var gameEntities = [];
     var player = Player(); 
-    var noises = [];
+    var noises = []; // notification queue for npc when a rock hit the wall
     var background = Background();
     var error = 0;
     init(); 
@@ -25,22 +26,21 @@ function GameWorld() {
     /*
      * Initialize the game world with 
      * 1. player
-     * 2. 400x400 tile map
-     * 3. 5 NPCs
+     * 2. 800x800 tile map
+     * 3. 12 NPCs
      * 4. 3 Prizes 
+     * 5. game background
      *
      * Also, give camera focus to player.
      */
     function init() {
         tileMap.init(); 
         tileMap.rockNoise(noises);
-        camera.init(0, 0, MAP_WIDTH, MAP_HEIGHT);
+        camera.init(0, 0);
         player.init(720, 700, TILE_SIZE/2, TILE_SIZE/2, PLAYER);
-        //player.init(180, 300, TILE_SIZE, TILE_SIZE, PLAYER);
         player.setBullets(gameEntities);
         mapLayout = tileMap.getMapLayout();
         spawnEntities(NUM_OF_NPC, NPC);
-        //spawnEntities(1, NPC);
         spawnEntities(NUM_OF_PRIZE, PRIZE);
         background.init(player, backgroundImgs);
     }
@@ -48,7 +48,7 @@ function GameWorld() {
     /**
      * Spawn the given number of entities to the game world
      * @param number: number of entities to be spawn.
-     * @param type: entity type (NPC or prize).
+     * @param type: entity type (NPC, prize, or rock).
      */
     function spawnEntities(number, type) {
         let taken = tileMap.getMapLayout();
@@ -85,7 +85,8 @@ function GameWorld() {
      * AI inputs will be directed to the npc.
      */
     function handleInput() {
-        if (!keyIsDown(77)) {
+        // user can not control player when seeing map
+        if (!keyIsDown(MAP_KEY)) {
             let UserCommands = Command.handleInput();
             for (let command of UserCommands) {
                 command.execute(player);
@@ -122,8 +123,9 @@ function GameWorld() {
                 }
             }
         }
-        
+         
         if (tileMap.collision(player)) {
+            // player is at the exit door.
             checkGameEnd(WIN);
         }
     }
@@ -138,6 +140,7 @@ function GameWorld() {
                 gameEntities.splice(i, 1);
             }
         }
+        // dequeue noise from queue once it notified npc
         if (frameCount % FRAME_RATE == 0 && noises.length > 0) {
             noises.splice(0, 1);
         }
@@ -168,11 +171,14 @@ function GameWorld() {
     /**
      * Get most up to date image of the game world in current frame.
      * Render using ray casting method.
+     * @param force : boolean value to show (render) world map without 
+     *                pressing M key. Can be undefined, which it get
+     *                ignored in that case.
      */
     function render(force) {
-        if (keyIsDown(77) || force) {
+        if (keyIsDown(MAP_KEY) || force) {
             noStroke();
-            image(mapImgs[0], 0, 0);
+            image(mapImgs[0], 0, 0); // map background
             tileMap.render(camera);
             player.render(camera);
 
@@ -183,9 +189,7 @@ function GameWorld() {
                     entity.render(camera);
                 }
                 
-                /*     
-                 * Astar path for debugging
-                 */
+                /* Astar path for debugging */
                 /* 
                 if (entity.type == NPC) {
                     for (let path of entity.path) {
@@ -214,6 +218,9 @@ function GameWorld() {
         showScore();    
     }
     
+    /**
+     * Display guide/notification message on the screen.
+     */
     function displayGuide() {
         push();
         fill(255);
@@ -225,6 +232,7 @@ function GameWorld() {
         }
         pop();
     }
+
     /**
      * Display current score on the top right corner.
      */
@@ -239,7 +247,7 @@ function GameWorld() {
 
     /**
      * Check if end condition of the game have reached.
-     * 1. all the keys have been collected.
+     * 1. sufficient amounts of keys have been collected.
      * 2. player made contact with any of the NPCs.
      */
     function checkGameEnd(option) {

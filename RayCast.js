@@ -1,7 +1,7 @@
 /**
  * RayCast.js
  * Author : Bug Lee
- * Last modified : 11/12/21
+ * Last modified : 12/3/21
  *
  * This module contain data strucutre for ray casting. 
  * Ray casting can be easily apply to existing tile map game and provide
@@ -25,6 +25,12 @@ var Sprite = {
     }
 };
 
+/**
+ * Raycast engine. Can be apply to exisitng tile map game.
+ * In addition to its parameters, it requires to set up 2D map array 'mapLayout'.
+ * @param player : player object
+ * @param npc : array containing game entities
+ */
 function RayCast(player, npc) {
     var posX = (player.x + player.width / 2) / TILE_SIZE;
     var posY = (player.y + player.height / 2) / TILE_SIZE;
@@ -35,6 +41,7 @@ function RayCast(player, npc) {
     var depth = []; 
     var sprite = new Array(npc.length);
 
+    // construct sprites array for sprite casting
     for (let i = 0; i < npc.length; i++) {
         sprite[i] = Object.create(Sprite);
         sprite[i].init((npc[i].x + npc[i].width / 2) / TILE_SIZE, 
@@ -84,7 +91,7 @@ function RayCast(player, npc) {
         }
       
         // DDA algorithm
-        // move ray until it hit the wall
+        // move ray until it hit the wall or door
         while (!hit)
         {
             //print(mapX, mapY);
@@ -134,10 +141,13 @@ function RayCast(player, npc) {
         if (side == SIDE && rayDirY < 0) {
             textureX = wallImgs[0].width - textureX - 1;
         }
+
+        // render black if it is too far away
         if (perpendicularWallDist > PLAYER_SIGHT * 2) {
             fill(0);
             rect(x, drawStart, 1, drawEnd - drawStart);
         }
+        // otherwise, render with darker shade base on distance from player
         else {
             let offset = 0;
             if (mapLayout[mapY][mapX] == DOOR) {
@@ -155,6 +165,7 @@ function RayCast(player, npc) {
                         textureX, 0,                // sourceX, sourceY 
                         1, wallImgs[0].height);     // source_width, source_height
             }
+            // shading
             if (perpendicularWallDist >= PLAYER_SIGHT / 2) {
                 fill(0, perpendicularWallDist * 15);
                 rect(x, drawStart, 1, drawEnd - drawStart);
@@ -171,6 +182,7 @@ function RayCast(player, npc) {
     for (let i = 0; i < sprite.length; i++) {
         sprite[i].dist = pow(posX - sprite[i].x, 2) + pow(posY - sprite[i].y, 2);
     }
+    // sort sprite furthes to nearest from player
     sprite.sort(sortBy('dist'));
 
     for (let i = 0; i < sprite.length; i++) {
@@ -215,11 +227,13 @@ function RayCast(player, npc) {
                 transform[1] < depth[stripe]) {
                 let currNpc = npc[sprite[i].order];
                 let frame = currNpc.frame;
+                // render black if it is too far away
                 if (transform[1] > PLAYER_SIGHT) {
                     if (currNpc.type == NPC) {
                         frame += 16;
                     }
                 }
+                // render base on where npc is currently facing
                 else if (currNpc.type == NPC) {
                     frame += pointOfView(player.direction, currNpc.direction) * currNpc.maxFrame;
                 }
@@ -240,6 +254,11 @@ function RayCast(player, npc) {
     }
 }
 
+/**
+ * Find where NPC is currently facing in respect to player's view direction.
+ * @param plyDir : direction vector of player
+ * @param npcDir : direction vector of npc
+ */
 function pointOfView(plyDir, npcDir) {
     let heading = createVector(plyDir[0], plyDir[1], 0);
     let view = createVector(plyDir[0] + npcDir[0], plyDir[1] + npcDir[1], 0);

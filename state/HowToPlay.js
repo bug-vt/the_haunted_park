@@ -1,7 +1,7 @@
 /**
  * HowToPlay.js
  * Author: Bug Lee
- * Last modified: 10/29/21
+ * Last modified: 12/3/21
  *
  * This module contains HowToPlay data structure.
  * How to play screen include:
@@ -22,7 +22,7 @@ function HowToPlay() {
     var instruction =
         "1. Use arrow keys to move and rotate your point of view.\n\n" +
         "2. Avoid ghosts!\n\n" +
-        "3. Find the exit and keys to unlock it.\n\n" +  
+        "3. Collect keys, then find the exit door.\n\n" +  
         "4. If ghost haven't seen you yet, throw a rock (space bar) to distract the ghosts.\n"; 
 
     backButton.init(170, 320, 200, 50, BUTTON);

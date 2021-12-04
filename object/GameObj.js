@@ -1,9 +1,10 @@
 /**
  * GameObj.js
  * Author: Bug Lee
- * Last modified: 11/12/21
+ * Last modified: 12/3/21
  *
- * This module contains data structure for Lightning, AniamtionObj, and Prize.
+ * This module contains data structure for start screen (Lightning, AniamtionObj), 
+ * and game world (Prize, Bullet).
  */
 
 
@@ -68,11 +69,7 @@ var AnimationObj = {
  */
 var Prize = Object.create(SimpleObj);
 Prize.frame = 0;
-Prize.update = function() {
-    if (frameCount % 6 == 0) {
-        this.frame = (this.frame + 1) % this.img.length;
-    }
-};
+Prize.update = function() {};
 Prize.showEffect = function() {};
 Prize.render = function(offset) {
 
@@ -84,8 +81,8 @@ Prize.render = function(offset) {
 
 
 /**
- * Bullet object interact with game entities and create
- * dust effect once it hit something.
+ * Bullet object directly interact with tile map and indirectly
+ * interact with game entities.
  */
 var Bullet = Object.create(SimpleObj);
 Bullet.frame = 0;

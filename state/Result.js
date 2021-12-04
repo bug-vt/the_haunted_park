@@ -1,14 +1,13 @@
 /**
  * Result.js
  * Author: Bug Lee
- * Last modified: 11/12/21
+ * Last modified: 12/3/21
  *
  * This module contains Result data structure.
  * Result screen contains the following:
  * 1. Indication of Win or lose
- * 2. score
- * 3. Corresponding image for win or lose
- * 4. back to main menu button
+ * 2. score (number of keys collected and time taken)
+ * 3. back to main menu button
  */
 
 
@@ -17,8 +16,7 @@
 
 function Result() {
     var title;
-    var img;
-    var state;
+    var result;
     var first = true;
     var backButton = Object.create(ButtonObj);
 
@@ -30,7 +28,7 @@ function Result() {
      * then, initialize accordingly.
      */
     function init(result) {
-        state = result;
+        result = result;
         if (result === WIN) {
             title = "GAME CLEAR!";
         }
@@ -45,6 +43,7 @@ function Result() {
     function handleInput() {
         canvas.mouseClicked(ButtonObj.clicked);
     }
+
     /**
      * Go back to start screen when user click on the button.
      */
@@ -59,8 +58,8 @@ function Result() {
         // background window 
         fill(0, 0, 0, 170);
         rect(40, 50, CANVAS_WIDTH - 80, 300);
-        // win or lose image
-        if (state == WIN) {
+        // win or lose set up
+        if (result == WIN) {
             // title window
             fill(150, 150, 150, 200);
             rect(40, 10, CANVAS_WIDTH - 80, 40);
@@ -98,6 +97,7 @@ function Result() {
         textSize(DEFAULT_TEXT_SIZE);
         fill(255);
         text("Score: " + floor(score) + " / " + NUM_OF_PRIZE, CANVAS_WIDTH / 2, 100);
+        text("Time taken: " + (performance.now() - startTime) / ONE_SEC + " seconds", CANVAS_WIDTH / 2, 150);
 
         // back button
         fill(255,255,255, 170);

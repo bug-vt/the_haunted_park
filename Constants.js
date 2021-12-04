@@ -1,7 +1,7 @@
 /**
  * Constants.js
  * Author: Bug Lee
- * Last modified: 11/12/21
+ * Last modified: 12/3/21
  *
  * This module contains constant values for the game.
  */
@@ -18,6 +18,7 @@ const ONE_SEC = 1000;
 const TWO_SEC = 2000;
 const HALF_SEC = 500;
 const SPACE_BAR = 32;
+const MAP_KEY = 77;
 
 // Start, How to play screen
 const BUTTON = "@";
@@ -32,7 +33,6 @@ const MAP_WIDTH = 800;
 const MAP_HEIGHT = 800;
 const MAP_ROW = MAP_HEIGHT / TILE_SIZE;
 const MAP_COLUMN = MAP_WIDTH / TILE_SIZE;
-//const CEILING = "^";
 const WALL = "w";
 const DOOR = "E";
 const GROUND = "-"; 
@@ -42,15 +42,10 @@ const NPC = "N";
 const PLAYER = "P";
 const DEAD = "X";
 const GONE = "$";
-const GRASS = "^";
 
 // Game world
-const NUM_OF_NPC = 10;
+const NUM_OF_NPC = 12;
 const NUM_OF_PRIZE = 3;
-const G_DUST = "G";
-const B_DUST = "B";
-const R_DUST = "R";
-const SMOKE = "S";
 const BULLET = ".";
 const NOISE = "O";
 
@@ -89,26 +84,28 @@ const BACK_RIGHT_VIEW = 6;
 const SIDE_RIGHT_VIEW = 7;
 
 // world map
-const MAP1 = ["wwwwwwwwwwwwwwwwwwww",
-              "w        ww        w",
-              "w                  w",
-              "w                  w",
-              "w       wwww       w",
-              "wwwwwwwww          w",
-              "w       w          w",
-              "w       w          w",
-              "w       wwww       w",
-              "w                  w",
-              "w                  E",
-              "w                  w",
-              "w                  w",
-              "w                  w",
-              "w    wwwwww        w",
-              "w         w        w",
-              "w         w        w",
-              "w         w        w",
-              "w         w        w",
-              "wwwwwwwwwwwwwwwwwwww"];                  
+const MAP1 = [ //map for testing
+"wwwwwwwwwwwwwwwwwwww",
+"w        ww        w",
+"w                  w",
+"w                  w",
+"w       wwww       w",
+"wwwwwwwww          w",
+"w       w          w",
+"w       w          w",
+"w       wwww       w",
+"w                  w",
+"w                  E",
+"w                  w",
+"w                  w",
+"w                  w",
+"w    wwwwww        w",
+"w         w        w",
+"w         w        w",
+"w         w        w",
+"w         w        w",
+"wwwwwwwwwwwwwwwwwwww"
+];                  
 
 const MAP2 = [
 "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",

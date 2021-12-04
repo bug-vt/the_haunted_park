@@ -1,12 +1,11 @@
 /**
  * Camera.js
  * Author: Bug Lee
- * Last modified: 10/11/21
+ * Last modified: 12/3/21
  *
  * This module contains Camera data structure.
  * The camera will follow the object that is set to.
  */
-
 
 
 "use strict";
@@ -16,10 +15,8 @@ var Camera = {
      * initialize camera.
      * @param x : initial x position.
      * @param y : initial y position.
-     * @param xlim : camera scroll limit for x coordinate.
-     * @param ylim : camera scroll limit for y coordinate.
      */
-    init: function(x, y, xlim, ylim) {
+    init: function(x, y) {
         this.x = x;
         this.y = y;
     },

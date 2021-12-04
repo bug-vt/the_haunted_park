@@ -2,7 +2,7 @@
  * GraphSearch.js
  *
  * Author : Bug Lee
- * Last modified : 11/4/21
+ * Last modified : 12/3/21
  *
  * This module contains data structure for one of the well known graph search,
  * A star serach.

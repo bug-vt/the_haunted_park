@@ -1,7 +1,7 @@
 /**
  * SimpleObj.js
  * Author: Bug Lee
- * Last modified: 10/29/21
+ * Last modified: 12/3/21
  *
  * This module contains data structure for SimpleObj,
  * which provide a baseline for many objects used in game.

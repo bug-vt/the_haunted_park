@@ -1,7 +1,7 @@
 /**
  * Characters.js
  * Author: Bug Lee
- * Last modified: 11/12/21
+ * Last modified: 12/3/21
  *
  * This module contain data structures for player and Npc.
  * Player and Npc are special type of Actors that accept
@@ -19,7 +19,6 @@ function Player() {
     var player = Object.create(Actor);
     player.setImg([]);
     player.setSpeed(PLAYER_SPD);
-    //player.state = Standing(player);
     player.setDirection([-1, 0]); // direction vector
     player.plane = [0, 0.66]; // camara (projection) plane
     player.caughtOffGaurd = true;
@@ -37,10 +36,10 @@ function Npc() {
     npc.setDirection([0, -1]);
     npc.state = Wondering();
     npc.path = [];
-    npc.setID = function(id) {
+    npc.setID = function(id) { // id to better distribute when to perform search
         this.id = id;
     };
-    npc.stuck = 0;
+    npc.stuck = 0; // counter to check if npc is stuck
  
 
     return npc;

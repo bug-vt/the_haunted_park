@@ -1,16 +1,15 @@
 /**
  * Main.js
  * Author: Bug Lee
- * Last modified: 11/12/21
+ * Last modified: 12/3/21
  *
- * The objective of the game is to escaping the park by finding the escape route
+ * The objective of the game is to escaping the park by finding the escape route (exit door)
  * and the key to unlock the escape route that are randomly placed somewhere in the
  * game world. However, there are ghosts scatter around the map and player must avoid
  * them. When a ghost see the player, ghost will chase him/her. The player can distract 
- * a ghost by throwing a rock (not yet implemented), but ghosts cannot be eliminated. The player lose
- * when a ghost catch him/her. The player win when he/she successfully escape and
- * score will be based on the time it took to escape (for now, winning condtion
- * is obtaining certain amount of key. Will be changed in the future).
+ * a ghost by throwing a rock (not yet implemented), but ghosts cannot be eliminated. 
+ * The player lose when a ghost catch him/her. The player win when he/she successfully escape 
+ * and score will be based on the time it took to escape and number of keys collected.
  * The user can move player forward, backward, or rotate player using arrow keys.
  * Pressing a space bar will throw rock. The player and ghosts cannot go through a
  * wall. The structure of the map will be initialized by the tile map and the game
@@ -33,10 +32,14 @@ var gameStates = {
     result: Result
 };
 
+// global variables for game
 var canvas;
 var currentState;
-var score;
 var mapLayout;
+var score;
+var startTime;
+
+// game images
 var titleImgs = [];
 var backgroundImgs = [];
 var groundImg;
@@ -108,7 +111,6 @@ function preload() {
  */
 function setup() {
     canvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-//    customImg();
     noStroke();
     textAlign(CENTER,CENTER);
     frameRate(FRAME_RATE);

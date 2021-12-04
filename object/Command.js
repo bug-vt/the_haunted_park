@@ -1,7 +1,7 @@
 /**
  * Command.js
  * Author: Bug Lee
- * Last modified: 11/12/21
+ * Last modified: 12/3/21
  *
  * This module contains data structure for Command.
  * Command is use for providing control input for a actor's state.
@@ -35,7 +35,7 @@ var Command = {
             queue.push(Command.turnRightCommand());
         }
         if (keyIsDown(SPACE_BAR)) {
-            queue.push(Command.attackCommand());
+            queue.push(Command.shootCommand());
         }
         return queue;
     },
@@ -149,9 +149,9 @@ var Command = {
     },
 
     /**
-     * command actor to attack.
+     * command actor to shoot.
      */
-    attackCommand: function() {
+    shootCommand: function() {
         var command = {
             execute: function(actor) {
                 actor.spawnBullet();

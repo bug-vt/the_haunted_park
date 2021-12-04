@@ -1,10 +1,10 @@
 /**
  * Actor.js
  * Author: Bug Lee
- * Last modified: 11/12/21
+ * Last modified: 12/3/21
  *
  * This module contains data structure for Actor.
- * Actor act base on its state and it state is
+ * Actor act base on its state and its state is
  * controlled from external inputs (such as 
  * User inputs or AI).
  */
@@ -26,9 +26,6 @@ Actor.maxFrame = 2;
 Actor.setBullets = function(bullets) {
     this.bullets = bullets;
 };
-Actor.setEffect = function(dusts) {
-    this.dusts = dusts;
-}
 Actor.setSpeed = function(speed) {
     this.speed = speed;
 };
@@ -65,7 +62,6 @@ Actor.rotate = function(degree) {
 
 /**
  * Check collision between objects.
- * If the object is a bullet, then explode.
  * Otherwise, prevent the actor from moving.
  * @param obj : object that is in contacting with.
  */
@@ -76,6 +72,8 @@ Actor.checkCollision = function(obj) {
                 let heading = createVector(-this.direction[0], -this.direction[1], 0);
                 let target = createVector(obj.x - this.x, obj.y - this.y, 0);
                 let targetAngle = heading.angleBetween(target) * 180 / PI;
+
+                // npc contacted player in a non-blind spot
                 if (abs(targetAngle) < 40) {
                     this.caughtOffGaurd = false;
                 }
@@ -151,7 +149,13 @@ Actor.render = function(offset) {
     let renderY = this.y - offset.y;
 
     if (this.type === PLAYER) {
+        // render player view angle 
+        fill(0, 255, 0, 80);
+        let heading = atan2(-this.direction[1], -this.direction[0]);
+        arc(renderX + this.width / 2, renderY + this.height / 2, 280, 280,
+            heading - 1 / 3 * HALF_PI, heading + 1 / 3 * HALF_PI);
         fill(150, 150, 255);
+        // render player position
         circle(renderX + this.width / 2, renderY + this.height / 2, 20);
     }
     else if (this.type === NPC) {
@@ -160,6 +164,5 @@ Actor.render = function(offset) {
     
 
 };
-
 
 

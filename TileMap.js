@@ -1,7 +1,7 @@
 /**
  * TileMap.js
  * Author: Bug Lee
- * Last modified: 11/12/21
+ * Last modified: 12/3/21
  *
  * This module contains TileMap data structure.
  */
@@ -50,6 +50,9 @@ function TileMap() {
         }
     }
 
+    /**
+     * Set notification queue for npc.
+     */
     function rockNoise(rock_noises) {
         noises = rock_noises;
     }
@@ -61,24 +64,24 @@ function TileMap() {
         return mapLayout;
     }
 
-
     /**
      * Check collision between given object and surrounding tiles.
      *
      * @param obj: Actor.
+     * @return true if object is at the exit door; false otherwise.
      */
     function collision(obj) {
         let column = floor(obj.x / TILE_SIZE);
         let row = floor(obj.y / TILE_SIZE); 
         let index = column + row * MAP_COLUMN;
 
-        // check collision with bullets
+        // check collision with rocks
         if (obj.type == BULLET) {
             if (tiles[index].type != GROUND) {
                 obj.type = DEAD;
                 noise = Object.create(SimpleObj);
                 noise.init(obj.prevX, obj.prevY, 5, 5, NOISE);
-                noises.push(noise);
+                noises.push(noise); // enqueue notification 
             }
             return;
         }
