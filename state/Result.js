@@ -27,8 +27,8 @@ function Result() {
      * Identify whether player won or lose the game,
      * then, initialize accordingly.
      */
-    function init(result) {
-        result = result;
+    function init(gameResult) {
+        result = gameResult;
         if (result === WIN) {
             title = "GAME CLEAR!";
         }
